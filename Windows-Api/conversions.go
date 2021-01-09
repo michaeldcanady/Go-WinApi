@@ -1,18 +1,23 @@
 package winapi
 
-import(
-  "syscall"
+import (
+	"unicode/utf16"
+	"unsafe"
 )
 
-func LPSTRsToStrings(in [][]uint16) []string {
-	if len(in) == 0 {
-		return nil
+func Utf16PtrToString(p *uint16) string {
+	if p == nil {
+		return ""
 	}
 
-	out := make([]string, len(in))
-	for i, s := range in {
-		out[i] = syscall.UTF16ToString(s)
+	s := make([]uint16, 0, 50)
+	for {
+		if *p == 0 {
+			return string(utf16.Decode(s))
+		}
+		s = append(s, *p)
+		pp := uintptr(unsafe.Pointer(p))
+		pp += 2 // sizeof(uint16)
+		p = (*uint16)(unsafe.Pointer(pp))
 	}
-
-	return out
 }

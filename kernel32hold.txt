@@ -1,0 +1,10 @@
+func main() {
+	mounts, err := getFixedDriveMounts()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, m := range mounts {
+		log.Println("volume:", m.volume,
+			"mounts:", strings.Join(m.mounts, ", "))
+	}
+}
