@@ -2,24 +2,10 @@ package kernel32
 
 import (
 	"errors"
-	"math/bits"
+	"fmt"
 	"strings"
 	"syscall"
 	"unsafe"
-)
-
-const (
-	guidBufLen   = syscall.MAX_PATH + 1
-	driveUnknown = iota
-	driveNoRootDir
-
-	driveRemovable
-	driveFixed
-	driveRemote
-	driveCDROM
-	driveRamdisk
-
-	driveLastKnownType = driveRamdisk
 )
 
 var (
@@ -33,6 +19,8 @@ var (
 	getDriveTypeWProc                     = kernel32.NewProc("GetDriveTypeW")
 	procGetVolumeInformationW             = kernel32.NewProc("GetVolumeInformationW")
 	procGetLogicalDrives                  = kernel32.NewProc("GetLogicalDrives")
+	procDeleteVolumeMountPointW           = kernel32.NewProc("DeleteVolumeMountPointW")
+	procGetDriveTypeW                     = kernel32.NewProc("GetDriveTypeW")
 
 	errUnknownDriveType = errors.New("unknown drive type")
 	errNoRootDir        = errors.New("invalid root drive path")
@@ -42,22 +30,6 @@ var (
 		1: errNoRootDir,
 	}
 )
-
-func bitsToBits(data []byte) (st []int) {
-	st = make([]int, len(data)*8) // Performance x 2 as no append occurs.
-	for i, d := range data {
-		for j := 0; j < 8; j++ {
-			if bits.LeadingZeros8(d) == 0 {
-				// No leading 0 means that it is a 1
-				st[i*8+j] = 1
-			} else {
-				st[i*8+j] = 0
-			}
-			d = d << 1
-		}
-	}
-	return
-}
 
 type fixedDriveVolume struct {
 	volName          string
@@ -80,8 +52,6 @@ type Volume struct {
 	nFileSystemNameSize      uint32
 }
 
-const MaxVolumeNameLength = 50
-
 func New(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags uint32, lpFileSystemNameBuffer []uint16, nFileSystemNameSize uint32) Volume {
 	label := syscall.UTF16ToString(lpVolumeNameBuffer)
 	if label == "" {
@@ -97,6 +67,51 @@ func New(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lp
 		FileSystem:               syscall.UTF16ToString(lpFileSystemNameBuffer),
 		nFileSystemNameSize:      nFileSystemNameSize,
 	}
+}
+
+func GetDriveTypeW(PathName string) (string, error) {
+
+	vmpp, err := syscall.UTF16PtrFromString(PathName)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	ret, _, err := procGetDriveTypeW.Call(uintptr(unsafe.Pointer(vmpp)))
+	if ret == 0 {
+		fmt.Println(err)
+	}
+
+	switch ret {
+	case DRIVE_UNKNOWN:
+		return "unknown type", nil
+	case DRIVE_NO_ROOT_DIR:
+		return "no root dir", nil
+	case DRIVE_REMOVABLE:
+		return "removable", nil
+	case DRIVE_FIXED:
+		return "fixed", nil
+	case DRIVE_REMOTE:
+		return "remote", nil
+	case DRIVE_CDROM:
+		return "cdrom", nil
+	case DRIVE_RAMDISK:
+		return "ramdisk", nil
+	}
+	return "", nil
+}
+
+func DeleteVolumeMountPointW(volumeMountPoint string) {
+
+	vmpp, err := syscall.UTF16PtrFromString(volumeMountPoint)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	ret, _, err := procDeleteVolumeMountPointW.Call(uintptr(unsafe.Pointer(vmpp)))
+	if ret == 0 {
+		fmt.Println(err)
+	}
+	fmt.Println(ret)
 }
 
 func GetVolumeInformationW(rootPathName string) Volume {
@@ -126,18 +141,6 @@ func GetVolumeInformationW(rootPathName string) Volume {
 
 	}
 	return New(rootPathName, VolumeNameBuffer, nVolumeNameSize, VolumeSerialNumber, MaximumComponentLength, FileSystemFlags, FileSystemNameBuffer, nFileSystemNameSize)
-}
-
-func bitsToDrives(bitMap uint32) (drives []string) {
-	availableDrives := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
-
-	for i := range availableDrives {
-		if bitMap&1 == 1 {
-			drives = append(drives, availableDrives[i])
-		}
-		bitMap >>= 1
-	}
-	return
 }
 
 func GetLogicalDrives() ([]string, error) {
@@ -176,19 +179,6 @@ func GetVolumeNameForVolumeMountPointW(volumeMountPoint string) (string, error) 
 		}
 	}
 	return syscall.UTF16ToString(vnBuffer[:]), nil
-}
-
-func LPSTRsToStrings(in [][]uint16) []string {
-	if len(in) == 0 {
-		return nil
-	}
-
-	out := make([]string, len(in))
-	for i, s := range in {
-		out[i] = syscall.UTF16ToString(s)
-	}
-
-	return out
 }
 
 func findFirstVolume() (uintptr, []uint16, error) {
