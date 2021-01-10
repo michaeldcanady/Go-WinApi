@@ -23,9 +23,9 @@ func main() {
 	//fmt.Println(ret)
 
 	//fmt.Println(kernel32.GetVolumeInformationW("Z:\\"))
-	fmt.Println(kernel32.GetDriveTypeW())
-	handle := winapi.WNetOpenEnumW()
-	winapi.WNetEnumResourceW(handle)
+	//fmt.Println(kernel32.GetDriveTypeW())
+	winapi.WNetOpenEnumW()
+	//winapi.WNetEnumResourceW(handle)
 	//drive()
 	//kernel32.DeleteVolumeMountPointW("D:\\")
 	//winapi.WNetCancelConnection("\\\\fs3.liberty.edu\\hdbackups", true)

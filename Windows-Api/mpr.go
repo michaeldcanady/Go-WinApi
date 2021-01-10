@@ -91,6 +91,21 @@ func CreateNetResource(dw int, remote, localName string) NETRESOURCE {
 	return n
 }
 
+func WNetOpenEnumW() {
+	var resource NETRESOURCE
+	var handle uintptr
+
+	ret, _, err := procWNetOpenEnum.Call(
+		RESOURCE_GLOBALNET,
+		RESOURCETYPE_ANY,
+		0,
+		uintptr(unsafe.Pointer(&resource)),
+		handle,
+	)
+
+	fmt.Println(ret, err, handle)
+}
+
 // More detailed information at: https://docs.microsoft.com/en-us/windows/win32/api/winnetwk/nf-winnetwk-wnetaddconnectionw
 func WNetAddConnection(remote, password, localName string) error {
 	lpRemoteName := uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(remote)))
