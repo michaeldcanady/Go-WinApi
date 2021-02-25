@@ -1,4 +1,4 @@
-package natapi32
+package netapi32
 
 var (
 	procNetConfigGet    = modNetApi32.NewProc("NetConfigGet")

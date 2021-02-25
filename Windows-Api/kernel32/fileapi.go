@@ -54,9 +54,6 @@ type Volume struct {
 
 func New(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags uint32, lpFileSystemNameBuffer []uint16, nFileSystemNameSize uint32) Volume {
 	label := syscall.UTF16ToString(lpVolumeNameBuffer)
-	if label == "" {
-		label = "Local Disk"
-	}
 	return Volume{
 		PathName:                 lpRootPathName,
 		VolumeLabel:              label,

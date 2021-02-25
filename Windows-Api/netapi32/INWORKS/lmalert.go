@@ -1,4 +1,4 @@
-package natapi32
+package netapi32
 
 type ADMIN_OTHER_INFO struct {
 	alrtad_errcode    DWORD
@@ -35,5 +35,5 @@ func NetAlertRaiseEx() {
 }
 
 func NetAlertRaise() {
-  
+
 }

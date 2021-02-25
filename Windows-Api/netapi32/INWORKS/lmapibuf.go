@@ -4,6 +4,8 @@ import (
 	"syscall"
 	"time"
 	"unsafe"
+
+	"golang.org/x/sys/windows"
 )
 
 type SessionInfo struct {
@@ -77,8 +79,8 @@ func NetSessionEnum() (out []SessionInfo, err error) {
 	out = make([]SessionInfo, entriesread)
 	for i := uint32(0); i < entriesread; i++ {
 		out[i] = SessionInfo{
-			Cname:    utf16PtrToString(pinfo.Cname),
-			Username: utf16PtrToString(pinfo.Username),
+			Cname:    UTF16PtrToString(pinfo.Cname),
+			Username: UTF16PtrToString(pinfo.Username),
 			Time:     time.Duration(pinfo.Time) * time.Second,
 			IdleTime: time.Duration(pinfo.IdleTime) * time.Second,
 		}
