@@ -28,7 +28,6 @@ func main() {
 	//winapi.WNetEnumResourceW(handle)
 	//drive()
 	//kernel32.DeleteVolumeMountPointW("D:\\")
-	//winapi.WNetCancelConnection("\\\\fs3.liberty.edu\\hdbackups", true)
 }
 
 func drive() {
