@@ -1,8 +1,10 @@
-package kernel32
+package fileapi
 
 import (
 	"math/bits"
+	"strings"
 	"syscall"
+	"unsafe"
 )
 
 func bitsToBits(data []byte) (st []int) {
@@ -30,7 +32,7 @@ func bitsToDrives(bitMap uint32) (drives []string) {
 		}
 		bitMap >>= 1
 	}
-	return
+	return drives
 }
 
 func LPSTRsToStrings(in [][]uint16) []string {
@@ -44,4 +46,23 @@ func LPSTRsToStrings(in [][]uint16) []string {
 	}
 
 	return out
+}
+
+func UintptrFromString(s *string) uintptr {
+	if *s == "" {
+		return 0
+	}
+	var ret *uint16
+	// Some Windows API functions like GetTextExtentPoint32() panic when given
+	// a string containing NUL. This block checks & returns the part before NUL.
+	zeroAt := strings.Index(*s, "\x00")
+	if zeroAt == -1 {
+		ret, _ = syscall.UTF16PtrFromString(*s)
+		return uintptr(unsafe.Pointer(ret))
+	}
+	if zeroAt == 0 {
+		return 0
+	}
+	ret, _ = syscall.UTF16PtrFromString((*s)[:zeroAt])
+	return uintptr(unsafe.Pointer(ret))
 }

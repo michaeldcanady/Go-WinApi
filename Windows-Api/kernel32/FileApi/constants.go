@@ -1,4 +1,4 @@
-package kernel32
+package fileapi
 
 import "syscall"
 

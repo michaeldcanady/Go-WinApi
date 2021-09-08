@@ -4,38 +4,37 @@ import (
 	"fmt"
 	"strings"
 
-	winapi "github.com/michaeldcanady/windows-api/windows-api"
-	"github.com/michaeldcanady/windows-api/windows-api/kernel32"
+	fileapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/windows-api/kernel32/FileApi"
 )
 
 func main() {
-	//err := winapi.WNetAddConnection2("\\\\path\\to\\server", "username", "password")
-	//if err != nil {
-	//	panic(err)
-	//} else {
-	//	fmt.Println("Connection successful")
+	//fmt.Println(fileapi.GetVolumeInformationW("C:"))
+	//handle, err := fileapi.CreateFileW(`C:\New folder\a.txt`,
+	//	syscall.GENERIC_READ,
+	//	syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE,
+	//	0,
+	//	syscall.CREATE_NEW,
+	//	syscall.FILE_ATTRIBUTE_NORMAL,
+	//	0)
+	//if handle == syscall.InvalidHandle {
+	//	fmt.Println(handle)
+	//	fmt.Println(err)
 	//}
-	//address := "\\\\?\\Volume{8B45C404-2738-4BC6-8A55-A2E401D87A35}\\"
-	//ret, err := kernel32.GetVolumeNameForVolumeMountPointW("C:\\")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(ret)
 
-	//fmt.Println(kernel32.GetVolumeInformationW("Z:\\"))
-	//fmt.Println(kernel32.GetDriveTypeW())
-	winapi.WNetOpenEnumW()
-	//winapi.WNetEnumResourceW(handle)
-	//drive()
-	//kernel32.DeleteVolumeMountPointW("D:\\")
+	//err = handleapi.CloseHandle(handle)
+	//if err != nil {
+	//	log.Fatalf("second close: %v", err)
+	//}
+
+	//fmt.Println(fileapi.CreateDirectoryW(`C:\New folder\testfolder`, 0))
+	fmt.Println(fileapi.DeleteFileW(`C:\New folder\a.txt`))
 }
 
 func drive() {
-	drives, err := kernel32.GetLogicalDrives()
+	drives, err := fileapi.GetLogicalDrives()
 	if err != nil {
 		panic(err)
 	}
-	var remoteDrives []string
 	for _, drive := range drives {
 		drive = strings.ToUpper(drive)
 
@@ -43,13 +42,10 @@ func drive() {
 			drive = drive + ":\\"
 		}
 
-		ty, err := kernel32.GetDriveTypeW(drive)
+		ty, err := fileapi.GetDriveTypeW(drive)
 		if err != nil {
 			panic(err)
 		}
-		if ty == "remote" {
-			remoteDrives = append(remoteDrives, drive)
-		}
+		fmt.Println(ty)
 	}
-	fmt.Println(remoteDrives)
 }
