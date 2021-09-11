@@ -1,6 +1,6 @@
 # Windows-Api
 ## About Windows-API
-    Other more technical versions exist. The aim of this one is to make a way that is simple to use and you don't need much knowledge of C++ to get started.
+Other more technical versions exist. The aim of this one is to make a way that is simple to use and you don't need much knowledge of C++ to get started.
 ## Gettings Started
 1. Make sure you have a [GCC installed](#recommended-way-to-install-gcc)
 
@@ -21,7 +21,7 @@ CompareFileTime
 
 CreateFile2
 
-CreateFileW
+~~CreateFileW~~
 
 DefineDosDeviceW
 

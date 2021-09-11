@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	fmt.Println(fileapi.FindFirstFileExW('C:\Users\micha\OneDrive\Documents\Settings.toml',fileapi.FindExInfoStandard, fileapi.FindExSearchNameMatch, 0 ))
 	//fmt.Println(fileapi.GetVolumeInformationW("C:"))
 	//handle, err := fileapi.CreateFileW(`C:\New folder\a.txt`,
 	//	syscall.GENERIC_READ,
@@ -25,3 +26,4 @@ func main() {
 	//if err != nil {
 	//	log.Fatalf("second close: %v", err)
 	//}
+}
