@@ -25,27 +25,3 @@ func main() {
 	//if err != nil {
 	//	log.Fatalf("second close: %v", err)
 	//}
-
-	//fmt.Println(fileapi.CreateDirectoryW(`C:\New folder\testfolder`, 0))
-	fmt.Println(fileapi.DeleteFileW(`C:\New folder\a.txt`))
-}
-
-func drive() {
-	drives, err := fileapi.GetLogicalDrives()
-	if err != nil {
-		panic(err)
-	}
-	for _, drive := range drives {
-		drive = strings.ToUpper(drive)
-
-		if !strings.HasSuffix(drive, ":\\") {
-			drive = drive + ":\\"
-		}
-
-		ty, err := fileapi.GetDriveTypeW(drive)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(ty)
-	}
-}
