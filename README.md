@@ -20,11 +20,13 @@ CompareFileTime
 ~~CreateDirectoryW~~
 
 ~~CreateFile2~~
-    fileapi.CreateFile2(`C:\New folder\a.txt`,
-    syscall.GENERIC_READ,
-    syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE,
-    syscall.CREATE_NEW,
-    )
+```golang
+fileapi.CreateFile2(`C:\New folder\a.txt`,
+syscall.GENERIC_READ,
+syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE,
+syscall.CREATE_NEW,
+)
+```
 
 ~~CreateFileW~~
 
