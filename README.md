@@ -21,7 +21,7 @@ CompareFileTime
 
 ~~CreateFile2~~
 ```golang
-fileapi.CreateFile2(`C:\New folder\a.txt`,
+handle, err := fileapi.CreateFile2(`C:\New folder\a.txt`,
 syscall.GENERIC_READ,
 syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE,
 syscall.CREATE_NEW,
