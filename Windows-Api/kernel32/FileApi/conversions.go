@@ -5,6 +5,7 @@ import (
 	"strings"
 	"syscall"
 	"unsafe"
+	"strconv"
 )
 
 func bitsToBits(data []byte) (st []int) {
@@ -65,4 +66,24 @@ func UintptrFromString(s *string) uintptr {
 	}
 	ret, _ = syscall.UTF16PtrFromString((*s)[:zeroAt])
 	return uintptr(unsafe.Pointer(ret))
+}
+
+//seperateFlags takes SystemFlags as hex, converts them to binary to determine each flag
+//Then converts back into an int64 for later usage
+func seperateFlags(SystemFlags uint32) (flags []int64) {
+	binary := string(strconv.FormatInt(int64(SystemFlags), 2))
+	bin := strings.Split(binary, "")
+
+	endingZeros := strings.Repeat("0", int(len(bin)-1))
+	endingZeros1 := strings.Split(endingZeros, "")
+	for i, b := range bin {
+		flag := b + strings.Join(endingZeros1, "")
+		intFlag, _ := strconv.ParseInt(parseBinToHex(flag), 16, 64)
+		flags = append(flags, intFlag)
+
+		if i != int(len(bin)-1) {
+			endingZeros1 = remove(endingZeros1, 0)
+		}
+	}
+	return
 }

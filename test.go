@@ -2,21 +2,31 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	//"strings"
+	"syscall"
 
 	fileapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/windows-api/kernel32/FileApi"
 )
 
 func main() {
-	fmt.Println(fileapi.FindFirstFileExW('C:\Users\micha\OneDrive\Documents\Settings.toml',fileapi.FindExInfoStandard, fileapi.FindExSearchNameMatch, 0 ))
+
+	fmt.Println(fileapi.AreFileApisANSI())
+
+	//handle, filedata, err := fileapi.FindFirstFileW(`C:\Users\micha\OneDrive\Documents\*.doc`)
+	//if err != nil {
+//		panic(err)
+//	}
+//	fmt.Println(filedata)
+
+//	for{
+//		data, err := fileapi.FindNextFileW(handle)
+//		if err != nil {
+//			break
+//		}
+//		fmt.Println(data)
+//	}
+
 	//fmt.Println(fileapi.GetVolumeInformationW("C:"))
-	//handle, err := fileapi.CreateFileW(`C:\New folder\a.txt`,
-	//	syscall.GENERIC_READ,
-	//	syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE,
-	//	0,
-	//	syscall.CREATE_NEW,
-	//	syscall.FILE_ATTRIBUTE_NORMAL,
-	//	0)
 	//if handle == syscall.InvalidHandle {
 	//	fmt.Println(handle)
 	//	fmt.Println(err)

@@ -13,13 +13,18 @@ Other more technical versions exist. The aim of this one is to make a way that i
 FileAPI
 ### functions:
 
-AreFileApisANSI
+~~AreFileApisANSI~~
 
 CompareFileTime
 
 ~~CreateDirectoryW~~
 
-CreateFile2
+~~CreateFile2~~
+    fileapi.CreateFile2(`C:\New folder\a.txt`,
+    syscall.GENERIC_READ,
+    syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE,
+    syscall.CREATE_NEW,
+    )
 
 ~~CreateFileW~~
 
@@ -35,19 +40,13 @@ FindClose
 
 FindCloseChangeNotification
 
-FindFirstChangeNotificationA
-
 FindFirstChangeNotificationW
 
-FindFirstFileA
-
-FindFirstFileExA
-
-FindFirstFileExW
+~~FindFirstFileExW~~
 
 FindFirstFileNameW
 
-FindFirstFileW
+~~FindFirstFileW~~
 
 FindFirstStreamW
 
@@ -55,27 +54,18 @@ FindFirstVolumeW
 
 FindNextChangeNotification
 
-FindNextFileA
-
-Continues a file search from a previous call to the FindFirstFile, FindFirstFileEx, or FindFirstFileTransacted functions.
 FindNextFileNameW
 
-Continues enumerating the hard links to a file using the handle returned by a successful call to the FindFirstFileNameW function.
-FindNextFileW
+~~FindNextFileW~~
 
-Continues a file search from a previous call to the FindFirstFile, FindFirstFileEx, or FindFirstFileTransacted functions.
 FindNextStreamW
 
-Continues a stream search started by a previous call to the FindFirstStreamW function.
 FindNextVolumeW
 
-Continues a volume search started by a call to the FindFirstVolume function.
 FindVolumeClose
 
-Closes the specified volume search handle.
 FlushFileBuffers
 
-Flushes the buffers of a specified file and causes all buffered data to be written to a file.
 GetCompressedFileSizeA
 
 Retrieves the actual number of bytes of disk storage used to store a specified file.
