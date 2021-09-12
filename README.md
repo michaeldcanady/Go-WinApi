@@ -14,6 +14,9 @@ FileAPI
 ### functions:
 
 ~~AreFileApisANSI~~
+```golang
+    FromWindows := fileapi.AreFileApisANSI()
+```
 
 CompareFileTime
 
