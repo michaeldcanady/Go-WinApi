@@ -15,9 +15,11 @@ FileAPI
 
 ~~AreFileApisANSI~~
 <details open>
+<summary>Description</summary>
+</details>
+<details open>
 <summary>Example</summary>
-<pre><code>
-    FromWindows := fileapi.AreFileApisANSI()
+<pre><code>FromWindows := fileapi.AreFileApisANSI()
 </code></pre>
 </details>
 
