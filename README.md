@@ -14,9 +14,9 @@
 </p>
 
 <p align="center">
-  <a href="#What-is-Go-WinApi?">What is Go-WinApi?</a> •
+  <a href="#what-is-go-winapi">What is Go-WinApi?</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
+  <a href="#contributing">Contributing</a> •
   <a href="#credits">Credits</a> •
   <a href="#related">Related</a> •
   <a href="#license">License</a>
@@ -24,9 +24,17 @@
 
 ![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
 ## What is Go WinApi?
+
+## How to use
+
+## Contributing
+
+## Credit
+
+## Related
 ## License
 
-MIT
+N/A
 
 ---
 
