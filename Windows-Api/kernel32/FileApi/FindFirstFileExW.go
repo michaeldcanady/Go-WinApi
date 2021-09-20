@@ -97,7 +97,7 @@ type WIN32_FIND_DATAA struct {
 	wFinderFlags DWORD
 }
 
-type WIN32_FIND_DATAW struct {
+type Win32FindDataW struct {
 	dwFileAttributes []string
 	ftCreationTime time.Time
 	ftLastAccessTime time.Time
@@ -112,7 +112,7 @@ type WIN32_FIND_DATAW struct {
 	wFinderFlags DWORD
 }
 
-func newWin32FindData(dwFileAttributes DWORD, ftCreationTime, ftLastAccessTime, ftLastWriteTime timezoneapi.FILETIME, nFileSizeHigh, nFileSizeLow, dwReserved0 , dwReserved1 DWORD, cFileName [260]WCHAR, cAlternateFileName [14]WCHAR, dwFileType DWORD, dwCreatorType DWORD, wFinderFlags DWORD) (data WIN32_FIND_DATAW) {
+func newWin32FindData(dwFileAttributes DWORD, ftCreationTime, ftLastAccessTime, ftLastWriteTime timezoneapi.FILETIME, nFileSizeHigh, nFileSizeLow, dwReserved0 , dwReserved1 DWORD, cFileName [260]WCHAR, cAlternateFileName [14]WCHAR, dwFileType DWORD, dwCreatorType DWORD, wFinderFlags DWORD) (data Win32FindDataW) {
 	
 	intFileAttributesFlags := seperateFlags(uint32(dwFileAttributes))
 
@@ -128,7 +128,7 @@ func newWin32FindData(dwFileAttributes DWORD, ftCreationTime, ftLastAccessTime, 
 		fmt.Println(err)
 	}
 
-	data = WIN32_FIND_DATAW{
+	data = Win32FindDataW{
 		dwFileAttributes: identifydwFileAttributesFlags(intFileAttributesFlags),
 		ftCreationTime: CreationTime,
 		ftLastAccessTime: LastAccessTime,
@@ -163,7 +163,7 @@ func uint16ToString1(input [14]WCHAR) (output string){
 }
 
 
-func FindFirstFileExW(FileName string, fInfoLevelId  int32, fSearchOp  int32, dwAdditionalFlags DWORD) (syscall.Handle, WIN32_FIND_DATAW, error){
+func FindFirstFileExW(FileName string, fInfoLevelId  int32, fSearchOp  int32, dwAdditionalFlags DWORD) (syscall.Handle, Win32FindDataW, error){
 
 	var lpFindFileData WIN32_FIND_DATAA
 

@@ -25,8 +25,16 @@
 ![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
 ## What is Go WinApi?
 
+Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though it parses the data provided by the API into human readable and immediately in application.
+
 ## How to use
 
+Install a ()[]
+
+```sh
+git clone https://github.com/michaeldcanady/Go-WinApi.git
+```
+  
 ## Contributing
 
 ## Credit
