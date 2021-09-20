@@ -1,10 +1,3 @@
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
-<script>
-hljs.highlightAll();
-</script>
-
 <h1 align="center">
   <br>
   <a href="http://www.amitmerchant.com/electron-markdownify"><img src="../../../Images/Go-WinApi_Logo.png" alt="Markdownify" width="200"></a>
@@ -20,7 +13,8 @@ hljs.highlightAll();
 </p>
 
 <p align="center">
-  <a href="#what-is-go-winapi">What is Go-WinApi?</a> •
+  <a href="#what-is-go-file-api">What is Go-FileApi?</a> •
+      <a href="#functions">Functions</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#contributing">Contributing</a> •
   <a href="#credits">Credits</a> •
@@ -45,7 +39,6 @@ Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though 
     </details>
     <details>
       <summary>Example</summary>
-      <br>
       <pre><code>
       package main
       <br>
