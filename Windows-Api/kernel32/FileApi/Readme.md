@@ -13,7 +13,8 @@
 </p>
 
 <p align="center">
-  <a href="#what-is-go-winapi">What is Go-WinApi?</a> •
+  <a href="#what-is-go-file-api">What is Go-FileApi?</a> •
+      <a href="#functions">Functions</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#contributing">Contributing</a> •
   <a href="#credits">Credits</a> •
@@ -38,7 +39,6 @@ Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though 
     </details>
     <details>
       <summary>Example</summary>
-      <br>
       <pre><code>
       package main
       <br>
