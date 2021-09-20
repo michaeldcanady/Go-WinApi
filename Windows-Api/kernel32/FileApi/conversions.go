@@ -2,10 +2,10 @@ package fileapi
 
 import (
 	"math/bits"
+	"strconv"
 	"strings"
 	"syscall"
 	"unsafe"
-	"strconv"
 )
 
 func bitsToBits(data []byte) (st []int) {
@@ -70,19 +70,25 @@ func UintptrFromString(s *string) uintptr {
 
 //seperateFlags takes SystemFlags as hex, converts them to binary to determine each flag
 //Then converts back into an int64 for later usage
-func seperateFlags(SystemFlags uint32) (flags []int64) {
+func seperateFlags(SystemFlags uint32, flagDefinitions map[int64]string) (flags []string) {
 	binary := string(strconv.FormatInt(int64(SystemFlags), 2))
 	bin := strings.Split(binary, "")
+	var intFlags []int64
 
 	endingZeros := strings.Repeat("0", int(len(bin)-1))
 	endingZeros1 := strings.Split(endingZeros, "")
 	for i, b := range bin {
 		flag := b + strings.Join(endingZeros1, "")
 		intFlag, _ := strconv.ParseInt(parseBinToHex(flag), 16, 64)
-		flags = append(flags, intFlag)
+		intFlags = append(intFlags, intFlag)
 
 		if i != int(len(bin)-1) {
 			endingZeros1 = remove(endingZeros1, 0)
+		}
+	}
+	for _, flag := range intFlags {
+		if flagDefinitions[flag] != "" {
+			flags = append(flags, flagDefinitions[flag])
 		}
 	}
 	return

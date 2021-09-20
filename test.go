@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	//"strings"
-	"syscall"
+	//"syscall"
 
 	fileapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/windows-api/kernel32/FileApi"
 )
@@ -14,19 +14,19 @@ func main() {
 
 	//handle, filedata, err := fileapi.FindFirstFileW(`C:\Users\micha\OneDrive\Documents\*.doc`)
 	//if err != nil {
-//		panic(err)
-//	}
-//	fmt.Println(filedata)
+	//		panic(err)
+	//	}
+	//	fmt.Println(filedata)
 
-//	for{
-//		data, err := fileapi.FindNextFileW(handle)
-//		if err != nil {
-//			break
-//		}
-//		fmt.Println(data)
-//	}
+	//	for{
+	//		data, err := fileapi.FindNextFileW(handle)
+	//		if err != nil {
+	//			break
+	//		}
+	//		fmt.Println(data)
+	//	}
 
-	//fmt.Println(fileapi.GetVolumeInformationW("C:"))
+	fmt.Println(fileapi.GetVolumeInformationW("C:"))
 	//if handle == syscall.InvalidHandle {
 	//	fmt.Println(handle)
 	//	fmt.Println(err)

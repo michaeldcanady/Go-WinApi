@@ -9,7 +9,7 @@ var(
 	findNextFileWProc = kernel32.NewProc("FindNextFileW")
 )
 
-func FindNextFileW(hFindFile syscall.Handle) (WIN32_FIND_DATAW, error){
+func FindNextFileW(hFindFile syscall.Handle) (Win32FindDataW, error){
 	var lpFindFileData WIN32_FIND_DATAA
 	ret, _, err := findNextFileWProc.Call(
 		uintptr(hFindFile),

@@ -7,7 +7,7 @@ import(
 
 var findFirstFileWProc = kernel32.NewProc("FindFirstFileW")
 
-func FindFirstFileW(lpFileName string)(syscall.Handle, WIN32_FIND_DATAW, error){
+func FindFirstFileW(lpFileName string)(syscall.Handle, Win32FindDataW, error){
 	var lpFindFileData WIN32_FIND_DATAA
 
 	ret, _, err := findFirstFileWProc.Call(

@@ -35,14 +35,21 @@ Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though 
   <BLOCKQUOTE>
     <details>
       <summary>Description</summary>
-      <br>
+        <BLOCKQUOTE>
+          If the set of file I/O functions is using the ANSI code page, the return value is nonzero.
+          <br>
+          If the set of file I/O functions is using the OEM code page, the return value is zero.
+        </BLOCKQUOTE>
     </details>
     <details>
       <summary>Example</summary>
       <pre><code>
       package main
       <br>
-      import("fmt")
+      import(
+        "fmt"
+        fileapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/windows-api/kernel32/FileApi"
+      )
       <br>
       func main() {
         ANSI := fileapi.AreFileApisANSI()
@@ -51,7 +58,7 @@ Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though 
         </code></pre>
     </details>
 
-  <BLOCKQUOTE>
+  </BLOCKQUOTE>
 </details>
 
 <hr>
