@@ -34,7 +34,7 @@ var (
 	}
 )
 
-func GetVolumeInformationW(rootPathName string) (Volume, error) {
+func GetVolumeInformationW(rootPathName string) (volume Volume, err error) {
 	if !strings.HasSuffix(rootPathName, "\\") {
 		rootPathName = rootPathName + "\\"
 	}
@@ -52,7 +52,7 @@ func GetVolumeInformationW(rootPathName string) (Volume, error) {
 	//Converts rootPathName to UTF16 Pointer requred by procGetVolumeInformationW
 	pointer, err := syscall.UTF16PtrFromString(rootPathName)
 	if err != nil {
-		return Volume{}, err
+		return
 	}
 
 	ret, _, err := procGetVolumeInformationW.Call(
@@ -67,13 +67,12 @@ func GetVolumeInformationW(rootPathName string) (Volume, error) {
 		0)
 	// If GetVolumeInformationW Call returns an error
 	if ret != 1 {
-		return Volume{}, err
+		return
 	}
 
-	intFlags := seperateFlags(FileSystemFlags, volumeFlags)
-
+	volume = newVolume(rootPathName, VolumeNameBuffer, nVolumeNameSize, VolumeSerialNumber, MaximumComponentLength, FileSystemFlags, FileSystemNameBuffer, nFileSystemNameSize)
 	//Returns new volume
-	return newVolume(rootPathName, VolumeNameBuffer, nVolumeNameSize, VolumeSerialNumber, MaximumComponentLength, intFlags, FileSystemNameBuffer, nFileSystemNameSize), nil
+	return
 }
 
 //parseBinToHex converts binary to hex

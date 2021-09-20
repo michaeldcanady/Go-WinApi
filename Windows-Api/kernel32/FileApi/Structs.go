@@ -23,7 +23,7 @@ type Volume struct {
 	nFileSystemNameSize      uint32
 }
 
-func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength uint32, lpFileSystemFlags []string, lpFileSystemNameBuffer []uint16, nFileSystemNameSize uint32) Volume {
+func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength uint32, lpFileSystemFlags uint32, lpFileSystemNameBuffer []uint16, nFileSystemNameSize uint32) Volume {
 	label := syscall.UTF16ToString(lpVolumeNameBuffer)
 	return Volume{
 		PathName:                 lpRootPathName,
@@ -31,7 +31,7 @@ func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSi
 		nVolumeNameSize:          nVolumeNameSize,
 		SerialNumber:             lpVolumeSerialNumber,
 		lpMaximumComponentLength: lpMaximumComponentLength,
-		SystemFlags:              lpFileSystemFlags,
+		SystemFlags:              seperateFlags(lpFileSystemFlags, volumeFlags),
 		FileSystem:               syscall.UTF16ToString(lpFileSystemNameBuffer),
 		nFileSystemNameSize:      nFileSystemNameSize,
 	}
