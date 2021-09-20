@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="/path/to/styles/default.css">
-<script src="/path/to/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
+<script src="/path/to/highlight.min.js">
+</script>
+<script>
+hljs.highlightAll();
+</script>
 
 <h1 align="center">
   <br>
