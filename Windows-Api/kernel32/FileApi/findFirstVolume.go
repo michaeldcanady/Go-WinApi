@@ -1,8 +1,11 @@
 package fileapi
 
-import "unsafe"
+import (
+	"syscall"
+	"unsafe"
+)
 
-func findFirstVolume() (uintptr, []uint16, error) {
+func FindFirstVolume() (syscall.Handle, string, error) {
 	const invalidHandleValue = ^uintptr(0)
 
 	guid := make([]uint16, guidBufLen)
@@ -13,8 +16,8 @@ func findFirstVolume() (uintptr, []uint16, error) {
 	)
 
 	if handle == invalidHandleValue {
-		return invalidHandleValue, nil, err
+		return syscall.InvalidHandle, "", err
 	}
 
-	return handle, guid, nil
+	return syscall.Handle(handle), uint16ToString(guid), nil
 }

@@ -1,29 +1,19 @@
 package main
 
-import (
-
-	//"strings"
-	//"syscall"
-
-	"fmt"
-	"syscall"
-
-	fileapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/FileApi"
-)
+//"strings"
+//"syscall"
 
 func main() {
 
-	handle, err := fileapi.CreateFileW(`C:\Users\micha\OneDrive\Documents\Villum's Story.docx`, syscall.GENERIC_READ,
-		syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE|syscall.FILE_SHARE_DELETE,
-		0,
-		syscall.OPEN_EXISTING,
-		syscall.FILE_FLAG_BACKUP_SEMANTICS,
-		0)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(fileapi.ReadFileEx(handle))
+	//handle, err := fileapi.CreateFileW(`C:\Users\micha\OneDrive\Documents\Villum's Story.docx`, syscall.GENERIC_READ,
+	//	syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE|syscall.FILE_SHARE_DELETE,
+	//	0,
+	//	syscall.OPEN_EXISTING,
+	//	syscall.FILE_FLAG_BACKUP_SEMANTICS,
+	//	0)
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	//handle, data, _ := fileapi.FindFirstStreamW(`C:\Users\micha\OneDrive\Documents\backup.exe`)
 	//fmt.Println(data)

@@ -5,23 +5,23 @@ import (
 	"unsafe"
 )
 
-func findNextVolume(handle uintptr) ([]uint16, bool, error) {
+func FindNextVolume(handle syscall.Handle) (string, bool, error) {
 	const noMoreFiles = 18
 
 	guid := make([]uint16, guidBufLen)
 
 	rc, _, err := findNextVolumeWProc.Call(
-		handle,
+		uintptr(handle),
 		uintptr(unsafe.Pointer(&guid[0])),
 		uintptr(guidBufLen*2),
 	)
 
 	if rc == 1 {
-		return guid, true, nil
+		return uint16ToString(guid), true, nil
 	}
 
 	if err.(syscall.Errno) == noMoreFiles {
-		return nil, false, nil
+		return "", false, nil
 	}
-	return nil, false, err
+	return "", false, err
 }

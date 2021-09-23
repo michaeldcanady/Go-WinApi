@@ -1,6 +1,8 @@
 package fileapi
 
-import "errors"
+import (
+	"errors"
+)
 
 //GetLogicalDrives returns a list of all logical drives on the host machine
 func GetLogicalDrives() ([]string, error) {

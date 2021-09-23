@@ -7,7 +7,6 @@ import (
 )
 
 func DeleteVolumeMountPointW(volumeMountPoint string) {
-
 	vmpp, err := syscall.UTF16PtrFromString(volumeMountPoint)
 	if err != nil {
 		fmt.Println(err)

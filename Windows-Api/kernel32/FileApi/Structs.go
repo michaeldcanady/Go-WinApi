@@ -17,7 +17,7 @@ type Volume struct {
 	VolumeLabel              string
 	nVolumeNameSize          uint32
 	SerialNumber             uint32
-	lpMaximumComponentLength uint32
+	LpMaximumComponentLength uint32
 	SystemFlags              []string
 	FileSystem               string
 	nFileSystemNameSize      uint32
@@ -30,7 +30,7 @@ func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSi
 		VolumeLabel:              label,
 		nVolumeNameSize:          nVolumeNameSize,
 		SerialNumber:             lpVolumeSerialNumber,
-		lpMaximumComponentLength: lpMaximumComponentLength,
+		LpMaximumComponentLength: lpMaximumComponentLength,
 		SystemFlags:              seperateFlags(lpFileSystemFlags, volumeFlags),
 		FileSystem:               syscall.UTF16ToString(lpFileSystemNameBuffer),
 		nFileSystemNameSize:      nFileSystemNameSize,

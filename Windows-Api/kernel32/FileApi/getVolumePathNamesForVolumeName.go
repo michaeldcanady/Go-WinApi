@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-func getVolumePathNamesForVolumeName(volName []uint16) ([][]uint16, error) {
+func GetVolumePathNamesForVolumeName(volName []string) ([]string, error) {
 	const (
 		errorMoreData = 234
 		NUL           = 0x0000
@@ -22,7 +22,7 @@ func getVolumePathNamesForVolumeName(volName []uint16) ([][]uint16, error) {
 		pathNamesLen *= 2
 
 		rc, _, err := getVolumePathNamesForVolumeNameWProc.Call(
-			uintptr(unsafe.Pointer(&volName[0])),
+			UintptrFromString(&volName[0]),
 			uintptr(unsafe.Pointer(&pathNames[0])),
 			uintptr(pathNamesLen),
 			uintptr(unsafe.Pointer(&pathNamesLen)),
@@ -48,5 +48,11 @@ func getVolumePathNamesForVolumeName(volName []uint16) ([][]uint16, error) {
 			i = j + 1
 		}
 	}
-	return out, nil
+
+	var out1 []string
+	for _, path := range out {
+		out1 = append(out1, uint16ToString(path))
+	}
+
+	return out1, nil
 }
