@@ -1,18 +1,22 @@
 package fileapi
 
 import (
+	
 	"syscall"
 	"unsafe"
 )
 
-var findFirstFileWProc = kernel32.NewProc("FindFirstFileW")
+var findFirstStreamWProc = kernel32.NewProc("FindFirstStreamW")
 
-func FindFirstFileW(lpFileName string) (syscall.Handle, Win32FindDataW, error) {
+func FindFirstStreamW(lpFileName string) (syscall.Handle, Win32FindDataW, error) {
+
 	var lpFindFileData WIN32_FIND_DATAA
 
-	ret, _, err := findFirstFileWProc.Call(
+	ret, _, err := findFirstStreamWProc.Call(
 		UintptrFromString(&lpFileName),
+		0,
 		uintptr(unsafe.Pointer(&lpFindFileData)),
+		0,
 	)
 
 	data := newWin32FindData(
@@ -32,10 +36,6 @@ func FindFirstFileW(lpFileName string) (syscall.Handle, Win32FindDataW, error) {
 	)
 
 	if ret == 0 {
-		return syscall.Handle(0), data, err
-	}
-
-	if syscall.Handle(ret) == syscall.InvalidHandle {
 		return syscall.Handle(0), data, err
 	}
 

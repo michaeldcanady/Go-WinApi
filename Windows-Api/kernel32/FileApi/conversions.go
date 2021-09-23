@@ -1,8 +1,9 @@
 package fileapi
 
 import (
+	"errors"
 	"math/bits"
-	"strconv"
+	"regexp"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -71,25 +72,35 @@ func UintptrFromString(s *string) uintptr {
 //seperateFlags takes SystemFlags as hex, converts them to binary to determine each flag
 //Then converts back into an int64 for later usage
 func seperateFlags(SystemFlags uint32, flagDefinitions map[int64]string) (flags []string) {
-	binary := string(strconv.FormatInt(int64(SystemFlags), 2))
-	bin := strings.Split(binary, "")
-	var intFlags []int64
-
-	endingZeros := strings.Repeat("0", int(len(bin)-1))
-	endingZeros1 := strings.Split(endingZeros, "")
-	for i, b := range bin {
-		flag := b + strings.Join(endingZeros1, "")
-		intFlag, _ := strconv.ParseInt(parseBinToHex(flag), 16, 64)
-		intFlags = append(intFlags, intFlag)
-
-		if i != int(len(bin)-1) {
-			endingZeros1 = remove(endingZeros1, 0)
-		}
-	}
-	for _, flag := range intFlags {
-		if flagDefinitions[flag] != "" {
-			flags = append(flags, flagDefinitions[flag])
+	for k, v := range flagDefinitions {
+		if SystemFlags&uint32(k) != 0 {
+			flags = append(flags, v)
 		}
 	}
 	return
+}
+
+func validateDiskFormat(disk string) (string, error) {
+	var IsLocal = regexp.MustCompile(`^[a-zA-Z]:\`).MatchString
+
+	match, err := regexp.MatchString(`^[a-zA-Z]`, disk)
+	if err != nil {
+		return "", err
+	}
+
+	if match {
+		if IsLocal(disk) {
+			return disk, nil
+		} else {
+			return "", errors.New("Invalid local formatting please format 'C:\\'")
+		}
+	} else if strings.HasPrefix(disk, "\\") {
+		return disk, nil
+	}
+
+	return "", errors.New("Invalid drive formatting please format 'C:\\' for local and '\\\\path\\to\\drive\\' for remote.")
+}
+
+func highAndLowToSize(FileSizeHigh, FileSizeLow uint32) int {
+	return (int(FileSizeHigh) * (MAXDWORD + 1)) + int(FileSizeLow)
 }

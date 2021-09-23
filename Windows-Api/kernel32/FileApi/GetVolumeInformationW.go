@@ -8,6 +8,10 @@ import (
 	"unsafe"
 )
 
+const (
+	FILE_SUPPORTS_USN_JOURNAL uint32 = 0x02000000
+)
+
 var (
 	volumeFlags = map[int64]string{
 		0x00000002: "FILE_CASE_PRESERVED_NAMES",

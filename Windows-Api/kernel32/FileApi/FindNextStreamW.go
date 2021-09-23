@@ -5,13 +5,14 @@ import (
 	"unsafe"
 )
 
-var findFirstFileWProc = kernel32.NewProc("FindFirstFileW")
+var findNextStreamWProc = kernel32.NewProc("FindNextStreamW")
 
-func FindFirstFileW(lpFileName string) (syscall.Handle, Win32FindDataW, error) {
+func FindNextStreamW(hFindFile syscall.Handle) (syscall.Handle, Win32FindDataW, error) {
+
 	var lpFindFileData WIN32_FIND_DATAA
 
-	ret, _, err := findFirstFileWProc.Call(
-		UintptrFromString(&lpFileName),
+	ret, _, err := findNextStreamWProc.Call(
+		uintptr(hFindFile),
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 	)
 
@@ -32,10 +33,6 @@ func FindFirstFileW(lpFileName string) (syscall.Handle, Win32FindDataW, error) {
 	)
 
 	if ret == 0 {
-		return syscall.Handle(0), data, err
-	}
-
-	if syscall.Handle(ret) == syscall.InvalidHandle {
 		return syscall.Handle(0), data, err
 	}
 

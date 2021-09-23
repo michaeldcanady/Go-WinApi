@@ -57,7 +57,6 @@ Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though 
         }
         </code></pre>
     </details>
-
   </BLOCKQUOTE>
 </details>
 
