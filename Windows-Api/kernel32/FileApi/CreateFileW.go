@@ -34,21 +34,6 @@ var (
 	}
 )
 
-type _SECURITY_ATTRIBUTES struct {
-	nLength              DWORD
-	lpSecurityDescriptor LPVOID
-	bInheritHandle       bool
-}
-
-func NewSecurityAttribtute(nLength uint32, lpSecurityDescriptor LPVOID, bInheritHandle bool) _SECURITY_ATTRIBUTES {
-
-	return _SECURITY_ATTRIBUTES{
-		nLength:              DWORD(nLength),
-		lpSecurityDescriptor: lpSecurityDescriptor,
-		bInheritHandle:       bInheritHandle,
-	}
-}
-
 //CreateFileW Creates or opens a file or I/O device. The most commonly used I/O devices are as follows: file, file stream, directory, physical disk, volume, console buffer, tape drive, communications resource, mailslot, and pipe. The function returns a handle that can be used to access the file or device for various types of I/O depending on the file or device and the flags and attributes specified.
 //To perform this operation as a transacted operation, which results in a handle that can be used for transacted I/O, use the CreateFileTransacted function.
 func CreateFileW(FileName string, dwDesiredAccess DWORD, dwShareMode DWORD, lpSecurityAttributes interface{}, dwCreationDisposition DWORD, dwFlagsAndAttributes DWORD, dhTemplateFile syscall.Handle) (syscall.Handle, error) {

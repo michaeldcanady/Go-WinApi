@@ -104,3 +104,12 @@ func validateDiskFormat(disk string) (string, error) {
 func highAndLowToSize(FileSizeHigh, FileSizeLow uint32) int {
 	return (int(FileSizeHigh) * (MAXDWORD + 1)) + int(FileSizeLow)
 }
+
+func uint16ToString(input []uint16) (output string) {
+	for _, in := range input {
+		if in != 0 {
+			output += string(in)
+		}
+	}
+	return
+}

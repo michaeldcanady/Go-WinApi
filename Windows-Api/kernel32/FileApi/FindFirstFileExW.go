@@ -1,16 +1,8 @@
 package fileapi
 
 import (
-	"fmt"
 	"syscall"
-	"time"
 	"unsafe"
-
-	"github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/timezoneapi"
-)
-
-var (
-	findFirstFileExWProc = kernel32.NewProc("FindFirstFileExW")
 )
 
 const (
@@ -29,13 +21,13 @@ const (
 	FindExSearchLimitToDirectories = 1
 	FindExSearchLimitToDevices     = 2
 	FindExSearchMaxSearchOp        = 3
-)
 
-const (
 	MAXDWORD = 4294967295
 )
 
 var (
+	findFirstFileExWProc = kernel32.NewProc("FindFirstFileExW")
+
 	dwFileTypeFlags = map[int64]string{
 		0x00000001: "VFT_APP",
 		0x00000002: "VFT_DLL",
@@ -83,86 +75,6 @@ var (
 		0x80000008: "IO_REPARSE_TAG_WIM",
 	}
 )
-
-type WIN32_FIND_DATAA struct {
-	dwFileAttributes   DWORD
-	ftCreationTime     timezoneapi.FILETIME
-	ftLastAccessTime   timezoneapi.FILETIME
-	ftLastWriteTime    timezoneapi.FILETIME
-	nFileSizeHigh      DWORD
-	nFileSizeLow       DWORD
-	dwReserved0        DWORD
-	dwReserved1        DWORD
-	cFileName          []uint16
-	cAlternateFileName []uint16
-	dwFileType         DWORD
-	dwCreatorType      DWORD
-	wFinderFlags       DWORD
-}
-
-type Win32FindDataW struct {
-	dwFileAttributes   []string
-	ftCreationTime     time.Time
-	ftLastAccessTime   time.Time
-	ftLastWriteTime    time.Time
-	nFileSizeHigh      int
-	dwReserved0        []string
-	dwReserved1        DWORD
-	cFileName          string
-	cAlternateFileName string
-	dwFileType         []string
-	dwCreatorType      DWORD
-	wFinderFlags       DWORD
-}
-
-func newWin32FindData(dwFileAttributes DWORD, ftCreationTime, ftLastAccessTime, ftLastWriteTime timezoneapi.FILETIME, nFileSizeHigh, nFileSizeLow, dwReserved0, dwReserved1 DWORD, cFileName []uint16, cAlternateFileName []uint16, dwFileType DWORD, dwCreatorType DWORD, wFinderFlags DWORD) (data Win32FindDataW) {
-
-	CreationTime, err := timezoneapi.FileTimeToSystemTime(ftCreationTime)
-	if err != nil {
-		fmt.Println(err)
-	}
-	LastAccessTime, err := timezoneapi.FileTimeToSystemTime(ftLastAccessTime)
-	if err != nil {
-		fmt.Println(err)
-	}
-	LastWriteTime, err := timezoneapi.FileTimeToSystemTime(ftLastWriteTime)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	data = Win32FindDataW{
-		dwFileAttributes:   seperateFlags(uint32(dwFileAttributes), dwFileAttributeFlags),
-		ftCreationTime:     CreationTime,
-		ftLastAccessTime:   LastAccessTime,
-		ftLastWriteTime:    LastWriteTime,
-		nFileSizeHigh:      highAndLowToSize(uint32(nFileSizeHigh), uint32(nFileSizeLow)),
-		dwReserved0:        seperateFlags(uint32(dwReserved0), dwReparseTag),
-		dwReserved1:        dwReserved1,
-		cFileName:          uint16ToString(cFileName),
-		cAlternateFileName: uint16ToString(cAlternateFileName),
-		dwFileType:         seperateFlags(uint32(dwFileType), volumeFlags),
-		dwCreatorType:      dwCreatorType,
-		wFinderFlags:       wFinderFlags,
-	}
-
-	return
-}
-
-func uint16ToString(input []uint16) (output string) {
-	for _, in := range input {
-		if in != 0 {
-			output += string(in)
-		}
-	}
-	return
-}
-
-func uint16ToString1(input [14]uint16) (output string) {
-	for _, in := range input {
-		output += string(in)
-	}
-	return
-}
 
 func FindFirstFileExW(FileName string, fInfoLevelId int32, fSearchOp int32, dwAdditionalFlags DWORD) (syscall.Handle, Win32FindDataW, error) {
 

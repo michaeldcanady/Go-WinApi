@@ -21,9 +21,4 @@ var (
 
 	errUnknownDriveType = errors.New("unknown drive type")
 	errNoRootDir        = errors.New("invalid root drive path")
-
-	driveTypeErrors = [...]error{
-		0: errUnknownDriveType,
-		1: errNoRootDir,
-	}
 )

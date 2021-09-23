@@ -1,8 +1,6 @@
 package fileapi
 
 import (
-	"fmt"
-	"strconv"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -78,19 +76,4 @@ func GetVolumeInformationW(rootPathName string) (volume Volume, err error) {
 	err = nil
 	//Returns new volume
 	return
-}
-
-//parseBinToHex converts binary to hex
-func parseBinToHex(s string) string {
-	ui, err := strconv.ParseUint(s, 2, 64)
-	if err != nil {
-		return "error"
-	}
-
-	return fmt.Sprintf("%x", ui)
-}
-
-func remove(s []string, i int) []string {
-	s[i] = s[len(s)-1]
-	return s[:len(s)-1]
 }
