@@ -9,5 +9,5 @@ func GetFileAttributesW(lpFileName string) ([]string, error) {
 		return []string{}, err
 	}
 
-	return seperateFlags(uint32(ret), dwFileAttributeFlags), err
+	return SeperateFlags(uint32(ret), dwFileAttributeFlags), err
 }

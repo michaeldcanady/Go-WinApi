@@ -23,5 +23,5 @@ func GetFullPathNameW(lpFileName string) (string, error) {
 		return "", err
 	}
 
-	return uint16ToString(buf), nil
+	return syscall.UTF16ToString(buf), nil
 }

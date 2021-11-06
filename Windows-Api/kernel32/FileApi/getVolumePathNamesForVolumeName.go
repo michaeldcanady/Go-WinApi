@@ -49,10 +49,5 @@ func GetVolumePathNamesForVolumeName(volName []string) ([]string, error) {
 		}
 	}
 
-	var out1 []string
-	for _, path := range out {
-		out1 = append(out1, uint16ToString(path))
-	}
-
-	return out1, nil
+	return LPSTRsToStrings(out), nil
 }

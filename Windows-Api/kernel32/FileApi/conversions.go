@@ -71,7 +71,7 @@ func UintptrFromString(s *string) uintptr {
 
 //seperateFlags takes SystemFlags as hex, converts them to binary to determine each flag
 //Then converts back into an int64 for later usage
-func seperateFlags(SystemFlags uint32, flagDefinitions map[int64]string) (flags []string) {
+func SeperateFlags(SystemFlags uint32, flagDefinitions map[int64]string) (flags []string) {
 	for k, v := range flagDefinitions {
 		if SystemFlags&uint32(k) != 0 {
 			flags = append(flags, v)
@@ -103,13 +103,4 @@ func validateDiskFormat(disk string) (string, error) {
 
 func highAndLowToSize(FileSizeHigh, FileSizeLow uint32) int {
 	return (int(FileSizeHigh) * (MAXDWORD + 1)) + int(FileSizeLow)
-}
-
-func uint16ToString(input []uint16) (output string) {
-	for _, in := range input {
-		if in != 0 {
-			output += string(in)
-		}
-	}
-	return
 }

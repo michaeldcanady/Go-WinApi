@@ -21,5 +21,5 @@ func GetShortPathNameW(lpszLongPath string) (string, error) {
 		return "", err
 	}
 
-	return uint16ToString(lpszShortPath), nil
+	return syscall.UTF16ToString(lpszShortPath), nil
 }

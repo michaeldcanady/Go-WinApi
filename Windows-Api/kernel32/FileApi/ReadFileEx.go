@@ -32,5 +32,5 @@ func ReadFileEx(hFile syscall.Handle) (string, error) {
 		return "", err
 	}
 
-	return uint16ToString(lpszLongPath), nil
+	return syscall.UTF16ToString(lpszLongPath), nil
 }

@@ -1,5 +1,28 @@
 package netapi32
 
+import "time"
+
+type USER_INFO_1 struct {
+	usri1_name         *uint16
+	usri1_password     *uint16
+	usri1_password_age uint32
+	usri1_priv         uint32
+	usri1_home_dir     *uint16
+	usri1_comment      *uint16
+	usri1_flags        uint32
+	usri1_script_path  *uint16
+}
+
+type LocalUser1 struct {
+	Username      string
+	PasswordAge   time.Duration
+	Priviledge    string
+	HomeDirectory string
+	Comment       string
+	Flags         []string
+	ScriptPath    string
+}
+
 type USER_INFO_2 struct {
 	Usri2_name           *uint16
 	Usri2_password       *uint16

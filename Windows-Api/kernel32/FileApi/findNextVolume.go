@@ -17,7 +17,7 @@ func FindNextVolume(handle syscall.Handle) (string, bool, error) {
 	)
 
 	if rc == 1 {
-		return uint16ToString(guid), true, nil
+		return syscall.UTF16ToString(guid), true, nil
 	}
 
 	if err.(syscall.Errno) == noMoreFiles {

@@ -24,8 +24,6 @@ DefineDosDeviceW
 
 DeleteVolumeMountPointW
 
-FileTimeToLocalFileTime
-
 FindCloseChangeNotification
 
 FindFirstChangeNotificationW
@@ -33,10 +31,6 @@ FindFirstChangeNotificationW
 FindNextChangeNotification
 
 FindNextFileNameW
-
-FindNextVolumeW
-
-FindVolumeClose
 
 FlushFileBuffers
 
@@ -50,15 +44,7 @@ GetTempPathW
 
 GetVolumeInformationByHandleW
 
-GetVolumeInformationW
-
-GetVolumeNameForVolumeMountPointW
-
-GetVolumePathNamesForVolumeNameW
-
 GetVolumePathNameW
-
-LocalFileTimeToFileTime
 
 LockFile
 
@@ -68,8 +54,6 @@ QueryDosDeviceW
 
 ReadFileScatter
 
-RemoveDirectoryA
-
 RemoveDirectoryW
 
 SetEndOfFile
@@ -77,8 +61,6 @@ SetEndOfFile
 SetFileApisToANSI
 
 SetFileApisToOEM
-
-SetFileAttributesA
 
 SetFileAttributesW
 
@@ -90,15 +72,11 @@ SetFilePointer
 
 SetFilePointerEx
 
-SetFileTime
-
 SetFileValidData
 
 UnlockFile
 
 UnlockFileEx
-
-WriteFile
 
 WriteFileEx
 

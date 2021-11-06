@@ -55,16 +55,16 @@ func newWin32FindData(dwFileAttributes DWORD, ftCreationTime, ftLastAccessTime, 
 	}
 
 	data = Win32FindDataW{
-		dwFileAttributes:   seperateFlags(uint32(dwFileAttributes), dwFileAttributeFlags),
+		dwFileAttributes:   SeperateFlags(uint32(dwFileAttributes), dwFileAttributeFlags),
 		ftCreationTime:     CreationTime,
 		ftLastAccessTime:   LastAccessTime,
 		ftLastWriteTime:    LastWriteTime,
 		nFileSizeHigh:      highAndLowToSize(uint32(nFileSizeHigh), uint32(nFileSizeLow)),
-		dwReserved0:        seperateFlags(uint32(dwReserved0), dwReparseTag),
+		dwReserved0:        SeperateFlags(uint32(dwReserved0), dwReparseTag),
 		dwReserved1:        dwReserved1,
-		cFileName:          uint16ToString(cFileName),
-		cAlternateFileName: uint16ToString(cAlternateFileName),
-		dwFileType:         seperateFlags(uint32(dwFileType), volumeFlags),
+		cFileName:          syscall.UTF16ToString(cFileName),
+		cAlternateFileName: syscall.UTF16ToString(cAlternateFileName),
+		dwFileType:         SeperateFlags(uint32(dwFileType), volumeFlags),
 		dwCreatorType:      dwCreatorType,
 		wFinderFlags:       wFinderFlags,
 	}
@@ -94,7 +94,7 @@ func newWin32FileAttributeData(data Win32FileAttributeDataA) Win32FileAttributeD
 		panic(err)
 	}
 	return Win32FileAttributeData{
-		FileAttributes: seperateFlags(data.FileAttributes, dwFileAttributeFlags),
+		FileAttributes: SeperateFlags(data.FileAttributes, dwFileAttributeFlags),
 		CreationTime:   CreationTime,
 		LastAccessTime: LastAccessTime,
 		LastWriteTime:  LastWriteTime,
@@ -130,7 +130,7 @@ func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSi
 		nVolumeNameSize:          nVolumeNameSize,
 		SerialNumber:             lpVolumeSerialNumber,
 		LpMaximumComponentLength: lpMaximumComponentLength,
-		SystemFlags:              seperateFlags(lpFileSystemFlags, volumeFlags),
+		SystemFlags:              SeperateFlags(lpFileSystemFlags, volumeFlags),
 		FileSystem:               syscall.UTF16ToString(lpFileSystemNameBuffer),
 		nFileSystemNameSize:      nFileSystemNameSize,
 	}

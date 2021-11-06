@@ -7,7 +7,7 @@ import (
 
 var getFinalPathNameByHandleWProc = kernel32.NewProc("GetFinalPathNameByHandleW")
 
-func GetFinalPathNameByHandleW(hFile syscall.Handle) (Name string, Flag string, err error) {
+func GetFinalPathNameByHandleW(hFile syscall.Handle) (string, string, error) {
 
 	var bufSize uint32 = syscall.MAX_PATH // 260
 	buf := make([]uint16, bufSize)
@@ -21,19 +21,18 @@ func GetFinalPathNameByHandleW(hFile syscall.Handle) (Name string, Flag string, 
 	)
 
 	if ret == 0 {
-		Name = ""
-
-	} else {
-		Name = uint16ToString(buf)
-		err = nil
+		return "", "", err
 	}
 
+	return syscall.UTF16ToString(buf), getFlag(rawFlags), nil
+}
+
+func getFlag(rawFlags uint32) (flag string) {
 	switch rawFlags {
 	case 0x0:
-		Flag = "FILE_NAME_NORMALIZED"
+		flag = "FILE_NAME_NORMALIZED"
 	case 0x8:
-		Flag = "FILE_NAME_OPENED"
+		flag = "FILE_NAME_OPENED"
 	}
-
 	return
 }

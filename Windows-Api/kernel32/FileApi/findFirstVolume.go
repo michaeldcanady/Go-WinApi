@@ -19,5 +19,5 @@ func FindFirstVolume() (syscall.Handle, string, error) {
 		return syscall.InvalidHandle, "", err
 	}
 
-	return syscall.Handle(handle), uint16ToString(guid), nil
+	return syscall.Handle(handle), syscall.UTF16ToString(guid), nil
 }
