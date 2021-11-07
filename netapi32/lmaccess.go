@@ -2,6 +2,7 @@ package netapi32
 
 import (
 	"fmt"
+	"syscall"
 	"time"
 	"unsafe"
 
@@ -42,16 +43,17 @@ var (
 // ListLocalUsers lists information about local user accounts.
 func ListLocalUsers(serverName string, level int64, access uint32) ([]LocalUser1, error) {
 	var (
-		dataPointer  uintptr
-		resumeHandle uintptr
-		entriesRead  uint32
-		entriesTotal uint32
-		sizeTest     USER_INFO_1
-		retVal       = make([]LocalUser1, 0)
+		dataPointer      uintptr
+		resumeHandle     uintptr
+		entriesRead      uint32
+		entriesTotal     uint32
+		sizeTest         USER_INFO_1
+		retVal           = make([]LocalUser1, 0)
+		serverNameNum, _ = syscall.UTF16PtrFromString(serverName)
 	)
 
 	ret, _, _ := usrNetUserEnum.Call(
-		uintptr(0),                                 // servername
+		uintptr(unsafe.Pointer(serverNameNum)),     // servername
 		uintptr(uint32(level)),                     // level, USER_INFO_2
 		uintptr(uint32(access)),                    // filter, only "normal" accounts.
 		uintptr(unsafe.Pointer(&dataPointer)),      // struct buffer for output data.
