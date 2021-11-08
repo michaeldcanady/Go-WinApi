@@ -1,0 +1,5 @@
+package timezoneapi
+
+func SystemTimeToFileTime() {
+
+}
