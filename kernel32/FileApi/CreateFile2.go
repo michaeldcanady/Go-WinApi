@@ -1,6 +1,6 @@
 package fileapi
 
-func CreateFile2(fileName string, dwDesiredAccess, dwShareMode, dwCreationDisposition DWORD) (HANDLE, error) {
+func CreateFile2(fileName string, dwDesiredAccess, dwShareMode, dwCreationDisposition uint32) (handle HANDLE, err error) {
 
 	ret, _, err := procCreateFile2.Call(
 		UintptrFromString(fileName),
@@ -10,9 +10,11 @@ func CreateFile2(fileName string, dwDesiredAccess, dwShareMode, dwCreationDispos
 		0,
 	)
 
-	if ret == 18446744073709551615 {
-		return HANDLE(ret), err
+	handle = HANDLE(ret)
+
+	if handle == INVALID_HANDLE_VALUE {
+		return handle, err
 	}
 
-	return HANDLE(ret), nil
+	return handle, nil
 }

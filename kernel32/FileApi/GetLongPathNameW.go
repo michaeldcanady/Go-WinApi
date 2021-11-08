@@ -6,13 +6,13 @@ import (
 )
 
 func GetLongPathNameW(shortPath string) (string, error) {
-	var bufSize uint32 = syscall.MAX_PATH // 260
-	lpszLongPath := make([]uint16, bufSize)
+
+	lpszLongPath := make([]uint16, MAX_PATH)
 
 	ret, _, err := procGetLongPathNameW.Call(
 		UintptrFromString(shortPath),
 		uintptr(unsafe.Pointer(&lpszLongPath[0])),
-		uintptr(bufSize),
+		uintptr(MAX_PATH),
 	)
 
 	if ret == 0 {

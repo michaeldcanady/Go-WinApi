@@ -58,12 +58,11 @@ func GetVolumeInformationW(rootPathName string) (volume Volume, err error) {
 		uintptr(nFileSystemNameSize),
 		0)
 	// If GetVolumeInformationW Call returns an error
-	if ret != 1 {
+	if ret == 0 {
 		return
 	}
 
 	volume = newVolume(rootPathName, VolumeNameBuffer, nVolumeNameSize, VolumeSerialNumber, MaximumComponentLength, FileSystemFlags, FileSystemNameBuffer, nFileSystemNameSize)
-	err = nil
 	//Returns new volume
-	return
+	return volume, nil
 }

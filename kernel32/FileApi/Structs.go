@@ -9,19 +9,19 @@ import (
 )
 
 type WIN32_FIND_DATAA struct {
-	dwFileAttributes   DWORD
+	dwFileAttributes   uint32
 	ftCreationTime     timezoneapi.FILETIME
 	ftLastAccessTime   timezoneapi.FILETIME
 	ftLastWriteTime    timezoneapi.FILETIME
-	nFileSizeHigh      DWORD
-	nFileSizeLow       DWORD
-	dwReserved0        DWORD
-	dwReserved1        DWORD
+	nFileSizeHigh      uint32
+	nFileSizeLow       uint32
+	dwReserved0        uint32
+	dwReserved1        uint32
 	cFileName          []uint16
 	cAlternateFileName []uint16
-	dwFileType         DWORD
-	dwCreatorType      DWORD
-	wFinderFlags       DWORD
+	dwFileType         uint32
+	dwCreatorType      uint32
+	wFinderFlags       uint32
 }
 
 type Win32FindDataW struct {
@@ -31,42 +31,42 @@ type Win32FindDataW struct {
 	ftLastWriteTime    time.Time
 	nFileSizeHigh      int
 	dwReserved0        []string
-	dwReserved1        DWORD
+	dwReserved1        uint32
 	cFileName          string
 	cAlternateFileName string
 	dwFileType         []string
-	dwCreatorType      DWORD
-	wFinderFlags       DWORD
+	dwCreatorType      uint32
+	wFinderFlags       uint32
 }
 
-func newWin32FindData(dwFileAttributes DWORD, ftCreationTime, ftLastAccessTime, ftLastWriteTime timezoneapi.FILETIME, nFileSizeHigh, nFileSizeLow, dwReserved0, dwReserved1 DWORD, cFileName []uint16, cAlternateFileName []uint16, dwFileType DWORD, dwCreatorType DWORD, wFinderFlags DWORD) (data Win32FindDataW) {
+func newWin32FindData(oldObject WIN32_FIND_DATAA) (data Win32FindDataW) {
 
-	CreationTime, err := timezoneapi.FileTimeToSystemTime(ftCreationTime)
+	CreationTime, err := timezoneapi.FileTimeToSystemTime(oldObject.ftCreationTime)
 	if err != nil {
 		fmt.Println(err)
 	}
-	LastAccessTime, err := timezoneapi.FileTimeToSystemTime(ftLastAccessTime)
+	LastAccessTime, err := timezoneapi.FileTimeToSystemTime(oldObject.ftLastAccessTime)
 	if err != nil {
 		fmt.Println(err)
 	}
-	LastWriteTime, err := timezoneapi.FileTimeToSystemTime(ftLastWriteTime)
+	LastWriteTime, err := timezoneapi.FileTimeToSystemTime(oldObject.ftLastWriteTime)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	data = Win32FindDataW{
-		dwFileAttributes:   SeperateFlags(uint32(dwFileAttributes), dwFileAttributeFlags),
+		dwFileAttributes:   SeperateFlags(oldObject.dwFileAttributes, dwFileAttributeFlags),
 		ftCreationTime:     CreationTime,
 		ftLastAccessTime:   LastAccessTime,
 		ftLastWriteTime:    LastWriteTime,
-		nFileSizeHigh:      highAndLowToSize(uint32(nFileSizeHigh), uint32(nFileSizeLow)),
-		dwReserved0:        SeperateFlags(uint32(dwReserved0), dwReparseTag),
-		dwReserved1:        dwReserved1,
-		cFileName:          syscall.UTF16ToString(cFileName),
-		cAlternateFileName: syscall.UTF16ToString(cAlternateFileName),
-		dwFileType:         SeperateFlags(uint32(dwFileType), volumeFlags),
-		dwCreatorType:      dwCreatorType,
-		wFinderFlags:       wFinderFlags,
+		nFileSizeHigh:      highAndLowToSize(oldObject.nFileSizeHigh, oldObject.nFileSizeLow),
+		dwReserved0:        SeperateFlags(oldObject.dwReserved0, dwReparseTag),
+		dwReserved1:        oldObject.dwReserved1,
+		cFileName:          syscall.UTF16ToString(oldObject.cFileName),
+		cAlternateFileName: syscall.UTF16ToString(oldObject.cAlternateFileName),
+		dwFileType:         SeperateFlags(oldObject.dwFileType, volumeFlags),
+		dwCreatorType:      oldObject.dwCreatorType,
+		wFinderFlags:       oldObject.wFinderFlags,
 	}
 
 	return

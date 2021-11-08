@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-func FindFirstVolume() (syscall.Handle, string, error) {
+func FindFirstVolume() (HANDLE, string, error) {
 	const invalidHandleValue = ^uintptr(0)
 
 	guid := make([]uint16, guidBufLen)
@@ -16,8 +16,8 @@ func FindFirstVolume() (syscall.Handle, string, error) {
 	)
 
 	if handle == invalidHandleValue {
-		return syscall.InvalidHandle, "", err
+		return INVALID_HANDLE_VALUE, "", err
 	}
 
-	return syscall.Handle(handle), syscall.UTF16ToString(guid), nil
+	return HANDLE(handle), syscall.UTF16ToString(guid), nil
 }

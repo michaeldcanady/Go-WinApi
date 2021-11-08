@@ -1,7 +1,6 @@
 package fileapi
 
 import (
-	"syscall"
 	"unsafe"
 )
 
@@ -57,7 +56,7 @@ var (
 //FindFirstFileExW Searches a directory for a file or subdirectory with a name and attributes that match those specified.
 //For the most basic version of this function, see FindFirstFile.
 //To perform this operation as a transacted operation, use the FindFirstFileTransacted function.
-func FindFirstFileExW(FileName string, fInfoLevelId int32, fSearchOp int32, dwAdditionalFlags DWORD) (syscall.Handle, Win32FindDataW, error) {
+func FindFirstFileExW(FileName string, fInfoLevelId int32, fSearchOp int32, dwAdditionalFlags DWORD) (HANDLE, Win32FindDataW, error) {
 
 	var lpFindFileData WIN32_FIND_DATAA
 
@@ -70,25 +69,13 @@ func FindFirstFileExW(FileName string, fInfoLevelId int32, fSearchOp int32, dwAd
 		uintptr(dwAdditionalFlags),
 	)
 
-	data := newWin32FindData(
-		lpFindFileData.dwFileAttributes,
-		lpFindFileData.ftCreationTime,
-		lpFindFileData.ftLastAccessTime,
-		lpFindFileData.ftLastWriteTime,
-		lpFindFileData.nFileSizeHigh,
-		lpFindFileData.nFileSizeLow,
-		lpFindFileData.dwReserved0,
-		lpFindFileData.dwReserved1,
-		lpFindFileData.cFileName,
-		lpFindFileData.cAlternateFileName,
-		lpFindFileData.dwFileType,
-		lpFindFileData.dwCreatorType,
-		lpFindFileData.wFinderFlags,
-	)
+	handle := HANDLE(ret)
 
-	if syscall.InvalidHandle == syscall.Handle(ret) {
-		return syscall.Handle(0), data, err
+	data := newWin32FindData(lpFindFileData)
+
+	if INVALID_HANDLE_VALUE == handle {
+		return handle, data, err
 	}
 
-	return syscall.Handle(ret), data, nil
+	return handle, data, nil
 }

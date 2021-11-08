@@ -9,7 +9,7 @@ func GetDriveTypeW(PathName string) (string, error) {
 		fmt.Println(err)
 	}
 
-	switch ret {
+	switch DriveType(ret) {
 	case DRIVE_UNKNOWN:
 		return "unknown type", nil
 	case DRIVE_NO_ROOT_DIR:
@@ -25,5 +25,6 @@ func GetDriveTypeW(PathName string) (string, error) {
 	case DRIVE_RAMDISK:
 		return "ramdisk", nil
 	}
+
 	return "", nil
 }

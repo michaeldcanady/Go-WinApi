@@ -5,6 +5,13 @@ import (
 	"unsafe"
 )
 
+var (
+	FileNameFlags = map[int64]string{
+		0x0: "FILE_NAME_NORMALIZED",
+		0x8: "FILE_NAME_OPENED",
+	}
+)
+
 func GetFinalPathNameByHandleW(hFile HANDLE) (string, string, error) {
 
 	var bufSize uint32 = syscall.MAX_PATH // 260
@@ -22,15 +29,5 @@ func GetFinalPathNameByHandleW(hFile HANDLE) (string, string, error) {
 		return "", "", err
 	}
 
-	return syscall.UTF16ToString(buf), getFlag(rawFlags), nil
-}
-
-func getFlag(rawFlags uint32) (flag string) {
-	switch rawFlags {
-	case 0x0:
-		flag = "FILE_NAME_NORMALIZED"
-	case 0x8:
-		flag = "FILE_NAME_OPENED"
-	}
-	return
+	return syscall.UTF16ToString(buf), SeperateFlags(rawFlags, FileNameFlags)[0], nil
 }

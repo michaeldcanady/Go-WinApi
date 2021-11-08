@@ -15,7 +15,7 @@ func WriteFile(hFile HANDLE, data string) error {
 	var buffer uint32
 
 	ret, _, err := procWriteFile.Call(
-		hFile.toUTF16Ptr(),
+		hFile.ToUintPtr(),
 		uintptr(unsafe.Pointer(&lpBuffer)),
 		uintptr(len(lpBuffer)),
 		uintptr(unsafe.Pointer(&buffer)),

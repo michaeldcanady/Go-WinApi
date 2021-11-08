@@ -1,11 +1,10 @@
 package fileapi
 
 import (
-	"syscall"
 	"unsafe"
 )
 
-func FindNextStreamW(hFindFile HANDLE) (syscall.Handle, Win32FindDataW, error) {
+func FindNextStreamW(hFindFile HANDLE) (HANDLE, Win32FindDataW, error) {
 
 	var lpFindFileData WIN32_FIND_DATAA
 
@@ -14,25 +13,11 @@ func FindNextStreamW(hFindFile HANDLE) (syscall.Handle, Win32FindDataW, error) {
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 	)
 
-	data := newWin32FindData(
-		lpFindFileData.dwFileAttributes,
-		lpFindFileData.ftCreationTime,
-		lpFindFileData.ftLastAccessTime,
-		lpFindFileData.ftLastWriteTime,
-		lpFindFileData.nFileSizeHigh,
-		lpFindFileData.nFileSizeLow,
-		lpFindFileData.dwReserved0,
-		lpFindFileData.dwReserved1,
-		lpFindFileData.cFileName,
-		lpFindFileData.cAlternateFileName,
-		lpFindFileData.dwFileType,
-		lpFindFileData.dwCreatorType,
-		lpFindFileData.wFinderFlags,
-	)
+	data := newWin32FindData(lpFindFileData)
 
 	if ret == 0 {
-		return syscall.Handle(0), data, err
+		return HANDLE(0), data, err
 	}
 
-	return syscall.Handle(ret), data, nil
+	return HANDLE(ret), data, nil
 }

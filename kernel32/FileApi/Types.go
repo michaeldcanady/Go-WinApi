@@ -17,6 +17,6 @@ type HANDLE syscall.Handle
 
 type SecurityAttribute int64
 
-func (H HANDLE) toUTF16Ptr() uintptr {
+func (H HANDLE) ToUintPtr() uintptr {
 	return uintptr(H)
 }

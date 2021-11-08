@@ -5,7 +5,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	winapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api"
+	winapi "github.com/michaeldcanady/Go-WinApi"
 )
 
 var (

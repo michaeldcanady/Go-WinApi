@@ -6,8 +6,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/michaeldcanady/Go-WinApi/Windows-Api/advapi32/sddl"
-	"github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/advapi32/sddl"
+	"github.com/michaeldcanady/Go-WinApi/advapi32/sddl"
 )
 
 const (
@@ -35,12 +34,12 @@ func LookupAccountNameW(systemName, computerName, userName string) (string, stri
 		cbSid                   = 0
 		cchReferencedDomainName = 0
 		peUse                   uint16
-		userNameInt, _          = syscall.UintptrFromString(userName)
+		userNameInt, _          = syscall.UTF16FromString(userName)
 	)
 
 	_, _, _ = procLookupAccountNameW.Call(
 		uintptr(0),
-		uintptr(unsafe.Pointer(userNameInt)),
+		uintptr(unsafe.Pointer(&userNameInt)),
 		uintptr(0),
 		uintptr(unsafe.Pointer(&cbSid)),
 		uintptr(0),
@@ -53,7 +52,7 @@ func LookupAccountNameW(systemName, computerName, userName string) (string, stri
 
 	ret, _, err := procLookupAccountNameW.Call(
 		uintptr(0),
-		uintptr(unsafe.Pointer(userNameInt)),
+		uintptr(unsafe.Pointer(&userNameInt)),
 		uintptr(unsafe.Pointer(&Sid)),
 		uintptr(unsafe.Pointer(&cbSid)),
 		uintptr(unsafe.Pointer(&ReferencedDomainName)),

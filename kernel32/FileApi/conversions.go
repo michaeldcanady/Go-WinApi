@@ -50,6 +50,7 @@ func LPSTRsToStrings(in [][]uint16) []string {
 	return out
 }
 
+//UintptrFromString Converts a string to a uintptr
 func UintptrFromString(s string) uintptr {
 	if s == "" {
 		return 0
@@ -69,7 +70,7 @@ func UintptrFromString(s string) uintptr {
 	return uintptr(unsafe.Pointer(ret))
 }
 
-//seperateFlags takes SystemFlags as hex, converts them to binary to determine each flag
+//SeperateFlags takes SystemFlags as hex, converts them to binary to determine each flag
 //Then converts back into an int64 for later usage
 func SeperateFlags(SystemFlags uint32, flagDefinitions map[int64]string) (flags []string) {
 	for k, v := range flagDefinitions {

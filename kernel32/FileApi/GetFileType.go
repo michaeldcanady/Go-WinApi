@@ -1,15 +1,11 @@
 package fileapi
 
-import (
-	"fmt"
-)
-
-var(
-	fileType = map[int64]string {
-		0x0001: FILE_TYPE_DISK,
-		0x0002: FILE_TYPE_CHAR,
-		0x0003: FILE_TYPE_PIPE,
-		0x8000: FILE_TYPE_REMOTE,
+var (
+	fileType = map[int64]string{
+		0x0001: "FILE_TYPE_DISK",
+		0x0002: "FILE_TYPE_CHAR",
+		0x0003: "FILE_TYPE_PIPE",
+		0x8000: "FILE_TYPE_REMOTE",
 	}
 )
 
@@ -21,5 +17,5 @@ func GetFileType(hFile HANDLE) (string, error) {
 		return "FILE_TYPE_UNKNOWN", err
 	}
 
-	return SeperateFlags(ret, fileType)[0], nil
+	return SeperateFlags(uint32(ret), fileType)[0], nil
 }

@@ -10,7 +10,7 @@ type FILETIME struct {
 	DwHighDateTime uint32
 }
 
-func (F FILETIME) toUTF16Ptr() uintptr {
+func (F FILETIME) ToUintPtr() uintptr {
 	return uintptr(unsafe.Pointer(&F))
 }
 

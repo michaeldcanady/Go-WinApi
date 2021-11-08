@@ -6,7 +6,7 @@ import (
 	"time"
 	"unsafe"
 
-	fileapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/FileApi"
+	fileapi "github.com/michaeldcanady/Go-WinApi/kernel32/FileApi"
 )
 
 const (
@@ -16,8 +16,7 @@ const (
 	USER_FILTER_INTERDOMAIN_TRUST_ACCOUNT = 0x0008
 	USER_FILTER_WORKSTATION_TRUST_ACCOUNT = 0x0010
 	USER_FILTER_SERVER_TRUST_ACCOUNT      = 0x0020
-
-	USER_MAX_PREFERRED_LENGTH = 0xFFFFFFFF
+	USER_MAX_PREFERRED_LENGTH             = 0xFFFFFFFF
 )
 
 var (
@@ -49,11 +48,11 @@ func ListLocalUsers(serverName string, level int64, access uint32) ([]LocalUser1
 		entriesTotal     uint32
 		sizeTest         USER_INFO_1
 		retVal           = make([]LocalUser1, 0)
-		serverNameNum, _ = syscall.UintptrFromString(serverName)
+		serverNameNum, _ = syscall.UTF16FromString(serverName)
 	)
 
 	ret, _, _ := usrNetUserEnum.Call(
-		uintptr(unsafe.Pointer(serverNameNum)),     // servername
+		uintptr(unsafe.Pointer(&serverNameNum)),    // servername
 		uintptr(uint32(level)),                     // level, USER_INFO_2
 		uintptr(uint32(access)),                    // filter, only "normal" accounts.
 		uintptr(unsafe.Pointer(&dataPointer)),      // struct buffer for output data.
@@ -98,24 +97,3 @@ func ListLocalUsers(serverName string, level int64, access uint32) ([]LocalUser1
 	usrNetApiBufferFree.Call(dataPointer)
 	return retVal, nil
 }
-
-//if (data.Usri2_flags & USER_UF_ACCOUNTDISABLE) != USER_UF_ACCOUNTDISABLE {
-//	ud.IsEnabled = true
-//}
-//if (data.Usri2_flags & USER_UF_LOCKOUT) == USER_UF_LOCKOUT {
-//	ud.IsLocked = true
-//}
-//if (data.Usri2_flags & USER_UF_PASSWD_CANT_CHANGE) == USER_UF_PASSWD_CANT_CHANGE {
-//	ud.NoChangePassword = true
-//}
-//if (data.Usri2_flags & USER_UF_DONT_EXPIRE_PASSWD) == USER_UF_DONT_EXPIRE_PASSWD {
-//	ud.PasswordNeverExpires = true
-//}
-//if data.Usri2_priv == USER_PRIV_ADMIN {
-//	ud.IsAdmin = true
-//}
-
-//retVal = append(retVal, ud)
-
-//iter = uintptr(unsafe.Pointer(iter + unsafe.Sizeof(sizeTest)))
-//}
