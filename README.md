@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <br>
   <a href="http://www.amitmerchant.com/electron-markdownify"><img src=".\Images/Go-WinApi_Logo.png" alt="Markdownify" width="200"></a>
@@ -9,9 +8,9 @@
 
 <h4 align="center">A Golang Wrapper For The Windows API.</h4>
 
-<p align="center">
-  <a href="https://badge.fury.io/gh/michaeldcanady%2FGo-WinApi"><img src="https://badge.fury.io/gh/michaeldcanady%2FGo-WinApi.svg" alt="GitHub version" height="18"></a>
-</p>
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/michaeldcanady/Go-WinApi)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/michaeldcanady/go-winapi)
+[![Go Report Card](https://goreportcard.com/badge/github.com/michaeldcanady/Go-WinApi)](https://goreportcard.com/report/github.com/michaeldcanady/Go-WinApi)
 
 <p align="center">
   <a href="#what-is-go-winapi">What is Go-WinApi?</a> •
@@ -23,6 +22,7 @@
 </p>
 
 ![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+
 ## What is Go WinApi?
 
 Go-WinApi is a golang wrapper for the windows api. Unlike other wrappers though it parses the data provided by the API into human readable and immediately in application.
@@ -34,12 +34,13 @@ Install a ()[]
 ```sh
 git clone https://github.com/michaeldcanady/Go-WinApi.git
 ```
-  
+
 ## Contributing
 
 ## Credit
 
 ## Related
+
 ## License
 
 N/A
