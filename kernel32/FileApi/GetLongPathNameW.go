@@ -5,12 +5,12 @@ import (
 	"unsafe"
 )
 
-func GetLongPathNameW(lpszShortPath string) (string, error) {
+func GetLongPathNameW(shortPath string) (string, error) {
 	var bufSize uint32 = syscall.MAX_PATH // 260
 	lpszLongPath := make([]uint16, bufSize)
 
-	ret, _, err := getLongPathNameWProc.Call(
-		UintptrFromString(&lpszShortPath),
+	ret, _, err := procGetLongPathNameW.Call(
+		UintptrFromString(shortPath),
 		uintptr(unsafe.Pointer(&lpszLongPath[0])),
 		uintptr(bufSize),
 	)

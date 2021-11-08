@@ -4,12 +4,12 @@ import (
 	"unsafe"
 )
 
-func GetFileAttributesExW(lpFileName string) (Win32FileAttributeData, error) {
+func GetFileAttributesExW(fileName string) (Win32FileAttributeData, error) {
 
 	var lpFileInformation Win32FileAttributeDataA
 
-	ret, _, err := getFileAttributesExWProc.Call(
-		UintptrFromString(&lpFileName),
+	ret, _, err := procGetFileAttributesExW.Call(
+		UintptrFromString(fileName),
 		0,
 		uintptr(unsafe.Pointer(&lpFileInformation)),
 	)

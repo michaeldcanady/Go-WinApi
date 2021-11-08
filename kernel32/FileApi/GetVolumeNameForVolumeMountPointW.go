@@ -15,16 +15,11 @@ func GetVolumeNameForVolumeMountPointW(volumeMountPoint string) (string, error) 
 		volumeMountPoint = volumeMountPoint + "\\"
 	}
 
-	vmpp, err := syscall.UTF16PtrFromString(volumeMountPoint)
-	if err != nil {
-		return "", err
-	}
-
 	var vnBuffer [MaxVolumeNameLength]uint16
 	p0 := &vnBuffer[0]
 
 	re, _, err := procGetVolumeNameForVolumeMountPointW.Call(
-		uintptr(unsafe.Pointer(vmpp)),
+		UintptrFromString(volumeMountPoint),
 		uintptr(unsafe.Pointer(p0)),
 		uintptr(MaxVolumeNameLength),
 	)

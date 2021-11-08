@@ -1,13 +1,14 @@
 package fileapi
 
 import (
-	"syscall"
 	"unsafe"
 )
 
-func FindNextFileW(hFindFile syscall.Handle) (Win32FindDataW, error) {
+func FindNextFileW(hFindFile HANDLE) (Win32FindDataW, error) {
+
 	var lpFindFileData WIN32_FIND_DATAA
-	ret, _, err := findNextFileWProc.Call(
+
+	ret, _, err := procFindNextFileW.Call(
 		uintptr(hFindFile),
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 	)

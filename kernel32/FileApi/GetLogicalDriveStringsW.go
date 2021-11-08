@@ -10,7 +10,7 @@ func GetLogicalDriveStringsW() (string, error) {
 	var bufSize uint32 = syscall.MAX_PATH // 260
 	buf := make([]uint16, bufSize)
 
-	ret, _, err := getLogicalDriveStringsWProc.Call(
+	ret, _, err := procGetLogicalDriveStringsW.Call(
 		uintptr(bufSize),
 		uintptr(unsafe.Pointer(&buf[0])),
 	)

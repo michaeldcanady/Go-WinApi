@@ -35,7 +35,7 @@ func LookupAccountNameW(systemName, computerName, userName string) (string, stri
 		cbSid                   = 0
 		cchReferencedDomainName = 0
 		peUse                   uint16
-		userNameInt, _          = syscall.UTF16PtrFromString(userName)
+		userNameInt, _          = syscall.UintptrFromString(userName)
 	)
 
 	_, _, _ = procLookupAccountNameW.Call(

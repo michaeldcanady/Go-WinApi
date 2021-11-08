@@ -5,8 +5,6 @@ import (
 	"unsafe"
 )
 
-var writeFileProc = kernel32.NewProc("WriteFile")
-
 func WriteFile(hFile HANDLE, data string) error {
 
 	lpBuffer, err := syscall.UTF16FromString(data)
@@ -16,7 +14,7 @@ func WriteFile(hFile HANDLE, data string) error {
 
 	var buffer uint32
 
-	ret, _, err := writeFileProc.Call(
+	ret, _, err := procWriteFile.Call(
 		hFile.toUTF16Ptr(),
 		uintptr(unsafe.Pointer(&lpBuffer)),
 		uintptr(len(lpBuffer)),

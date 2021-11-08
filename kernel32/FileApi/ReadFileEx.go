@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-func ReadFileEx(hFile syscall.Handle) (string, error) {
+func ReadFileEx(hFile HANDLE) (string, error) {
 
 	var bufSize, err = GetFileSize(hFile)
 
@@ -17,7 +17,7 @@ func ReadFileEx(hFile syscall.Handle) (string, error) {
 
 	//var ran uint32
 
-	ret, _, err := readFileExProc.Call(
+	ret, _, err := procReadFileEx.Call(
 		uintptr(hFile),
 		uintptr(unsafe.Pointer(&lpszLongPath[0])),
 		uintptr(bufSize),

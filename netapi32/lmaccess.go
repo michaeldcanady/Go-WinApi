@@ -49,7 +49,7 @@ func ListLocalUsers(serverName string, level int64, access uint32) ([]LocalUser1
 		entriesTotal     uint32
 		sizeTest         USER_INFO_1
 		retVal           = make([]LocalUser1, 0)
-		serverNameNum, _ = syscall.UTF16PtrFromString(serverName)
+		serverNameNum, _ = syscall.UintptrFromString(serverName)
 	)
 
 	ret, _, _ := usrNetUserEnum.Call(

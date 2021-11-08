@@ -15,6 +15,8 @@ type (
 
 type HANDLE syscall.Handle
 
+type SecurityAttribute int64
+
 func (H HANDLE) toUTF16Ptr() uintptr {
 	return uintptr(H)
 }

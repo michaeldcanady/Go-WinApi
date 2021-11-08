@@ -5,11 +5,11 @@ import (
 	"unsafe"
 )
 
-func FindNextStreamW(hFindFile syscall.Handle) (syscall.Handle, Win32FindDataW, error) {
+func FindNextStreamW(hFindFile HANDLE) (syscall.Handle, Win32FindDataW, error) {
 
 	var lpFindFileData WIN32_FIND_DATAA
 
-	ret, _, err := findNextStreamWProc.Call(
+	ret, _, err := procFindNextStreamW.Call(
 		uintptr(hFindFile),
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 	)

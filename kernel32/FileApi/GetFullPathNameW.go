@@ -10,8 +10,8 @@ func GetFullPathNameW(lpFileName string) (string, error) {
 	var bufSize uint32 = syscall.MAX_PATH // 260
 	buf := make([]uint16, bufSize)
 
-	ret, _, err := getFullPathNameWProc.Call(
-		UintptrFromString(&lpFileName),
+	ret, _, err := procGetFullPathNameW.Call(
+		UintptrFromString(lpFileName),
 		uintptr(bufSize),
 		uintptr(unsafe.Pointer(&buf[0])),
 		0,

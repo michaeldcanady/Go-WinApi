@@ -3,11 +3,11 @@ package fileapi
 import (
 	"unsafe"
 
-	timezoneapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/timezoneapi"
+	timezoneapi "github.com/michaeldcanady/Go-WinApi/kernel32/TimezoneApi"
 )
 
 func SetFileTime(hFile HANDLE, lpCreationTime, lpLastAccessTime, lpLastWriteTime timezoneapi.FILETIME) error {
-	ret, _, err := setFileTimeProc.Call(
+	ret, _, err := procSetFileTime.Call(
 		hFile.toUTF16Ptr(),
 		uintptr(unsafe.Pointer(&lpCreationTime)),
 		uintptr(unsafe.Pointer(&lpLastAccessTime)),

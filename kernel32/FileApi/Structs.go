@@ -5,7 +5,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/timezoneapi"
+	timezoneapi "github.com/michaeldcanady/Go-WinApi/kernel32/TimezoneApi"
 )
 
 type WIN32_FIND_DATAA struct {

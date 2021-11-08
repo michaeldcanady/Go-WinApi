@@ -3,17 +3,18 @@ package fileapi
 import (
 	"unsafe"
 
-	timezoneapi "github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/timezoneapi"
+	timezoneapi "github.com/michaeldcanady/Go-WinApi/kernel32/TimezoneApi"
 )
 
-func FileTimeToLocalFileTime(in timezoneapi.FILETIME) (timezoneapi.FILETIME, error) {
-	var out timezoneapi.FILETIME
-	ret, _, err := fileTimeToLocalFileTimeProc.Call(
-		uintptr(unsafe.Pointer(&in)),
-		uintptr(unsafe.Pointer(&out)),
+func FileTimeToLocalFileTime(lpFileTime timezoneapi.FILETIME) (lpLocalFileTime timezoneapi.FILETIME, err error) {
+
+	ret, _, err := procFileTimeToLocalFileTime.Call(
+		uintptr(unsafe.Pointer(&lpFileTime)),
+		uintptr(unsafe.Pointer(&lpLocalFileTime)),
 	)
 	if ret == 0 {
-		return out, err
+		return lpLocalFileTime, err
 	}
-	return out, nil
+
+	return lpLocalFileTime, nil
 }

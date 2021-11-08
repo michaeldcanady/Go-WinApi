@@ -1,19 +1,10 @@
 package fileapi
 
-import (
-	"fmt"
-	"syscall"
-	"unsafe"
-)
+import "fmt"
 
 func GetDriveTypeW(PathName string) (string, error) {
 
-	vmpp, err := syscall.UTF16PtrFromString(PathName)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	ret, _, err := procGetDriveTypeW.Call(uintptr(unsafe.Pointer(vmpp)))
+	ret, _, err := procGetDriveTypeW.Call(UintptrFromString(PathName))
 	if ret == 0 {
 		fmt.Println(err)
 	}

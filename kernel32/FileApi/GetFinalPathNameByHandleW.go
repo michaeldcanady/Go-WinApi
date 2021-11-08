@@ -5,13 +5,13 @@ import (
 	"unsafe"
 )
 
-func GetFinalPathNameByHandleW(hFile syscall.Handle) (string, string, error) {
+func GetFinalPathNameByHandleW(hFile HANDLE) (string, string, error) {
 
 	var bufSize uint32 = syscall.MAX_PATH // 260
 	buf := make([]uint16, bufSize)
 	var rawFlags uint32
 
-	ret, _, err := getFinalPathNameByHandleWProc.Call(
+	ret, _, err := procGetFinalPathNameByHandleW.Call(
 		uintptr(hFile),
 		uintptr(unsafe.Pointer(&buf[0])),
 		uintptr(bufSize),

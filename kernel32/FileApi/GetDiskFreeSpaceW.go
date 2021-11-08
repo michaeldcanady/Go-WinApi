@@ -8,8 +8,8 @@ func GetDiskFreeSpaceW(lpDirectoryName string) (uint32, uint32, uint32, uint32, 
 
 	var lpSectorsPerCluster, lpBytesPerSector, lpNumberOfFreeClusters, lpTotalNumberOfClusters uint32
 
-	ret, _, err := getDiskFreeSpaceWProc.Call(
-		UintptrFromString(&lpDirectoryName),
+	ret, _, err := procGetDiskFreeSpaceW.Call(
+		UintptrFromString(lpDirectoryName),
 		uintptr(unsafe.Pointer(&lpSectorsPerCluster)),
 		uintptr(unsafe.Pointer(&lpBytesPerSector)),
 		uintptr(unsafe.Pointer(&lpNumberOfFreeClusters)),

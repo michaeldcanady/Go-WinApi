@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-func FindNextVolume(handle syscall.Handle) (string, bool, error) {
+func FindNextVolume(handle HANDLE) (string, bool, error) {
 	const noMoreFiles = 18
 
 	guid := make([]uint16, guidBufLen)

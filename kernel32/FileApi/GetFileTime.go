@@ -1,18 +1,17 @@
 package fileapi
 
 import (
-	"syscall"
 	"time"
 	"unsafe"
 
-	"github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/kernel32/timezoneapi"
+	timezoneapi "github.com/michaeldcanady/Go-WinApi/kernel32/TimezoneApi"
 )
 
-func GetFileTime(hFile syscall.Handle) (time.Time, time.Time, time.Time, error) {
+func GetFileTime(hFile HANDLE) (time.Time, time.Time, time.Time, error) {
 
 	var dwCreationTime, dwLastAccessTime, dwLastWriteTime timezoneapi.FILETIME
 
-	ret, _, err := getFileTimeProc.Call(
+	ret, _, err := procGetFileTime.Call(
 		uintptr(hFile),
 		uintptr(unsafe.Pointer(&dwCreationTime)),
 		uintptr(unsafe.Pointer(&dwLastAccessTime)),

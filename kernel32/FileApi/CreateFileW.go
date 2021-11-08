@@ -35,14 +35,14 @@ var (
 
 //CreateFileW Creates or opens a file or I/O device. The most commonly used I/O devices are as follows: file, file stream, directory, physical disk, volume, console buffer, tape drive, communications resource, mailslot, and pipe. The function returns a handle that can be used to access the file or device for various types of I/O depending on the file or device and the flags and attributes specified.
 //To perform this operation as a transacted operation, which results in a handle that can be used for transacted I/O, use the CreateFileTransacted function.
-func CreateFileW(FileName string, dwDesiredAccess DWORD, dwShareMode DWORD, lpSecurityAttributes interface{}, dwCreationDisposition DWORD, dwFlagsAndAttributes DWORD, dhTemplateFile syscall.Handle) (syscall.Handle, error) {
+func CreateFileW(fileName string, dwDesiredAccess DWORD, dwShareMode DWORD, lpSecurityAttributes interface{}, dwCreationDisposition DWORD, dwFlagsAndAttributes DWORD, dhTemplateFile syscall.Handle) (syscall.Handle, error) {
 
 	if lpSecurityAttributes.(int) != 0 && fmt.Sprintf("%T", lpSecurityAttributes) != "*_SECURITY_ATTRIBUTES" {
 		return syscall.Handle(0), errors.New("Incompatible lpSecurityAttributes used please use 0 or specify security attributes")
 	}
 
-	ret, _, err := createFileW.Call(
-		UintptrFromString(&FileName),        // [in] LPCTSTR
+	ret, _, err := procCreateFileW.Call(
+		UintptrFromString(fileName),        // [in] LPCTSTR
 		uintptr(dwDesiredAccess),            // [in] DWORD
 		uintptr(dwShareMode),                // [in] DWORD
 		uintptr(lpSecurityAttributes.(int)), // [in] LPSECURITY_ATT...

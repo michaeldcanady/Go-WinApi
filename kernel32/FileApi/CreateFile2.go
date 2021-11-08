@@ -1,14 +1,9 @@
 package fileapi
 
-import (
-	"syscall"
-)
+func CreateFile2(fileName string, dwDesiredAccess, dwShareMode, dwCreationDisposition DWORD) (HANDLE, error) {
 
-var createFile2Proc = kernel32.NewProc("CreateFile2")
-
-func CreateFile2(lpFileName string, dwDesiredAccess, dwShareMode, dwCreationDisposition DWORD) (syscall.Handle, error) {
-	ret, _, err := createFile2Proc.Call(
-		syscall.UTF16FromString(lpFileName),
+	ret, _, err := procCreateFile2.Call(
+		UintptrFromString(fileName),
 		uintptr(dwDesiredAccess),
 		uintptr(dwShareMode),
 		uintptr(dwCreationDisposition),
@@ -16,8 +11,8 @@ func CreateFile2(lpFileName string, dwDesiredAccess, dwShareMode, dwCreationDisp
 	)
 
 	if ret == 18446744073709551615 {
-		return syscall.Handle(ret), err
+		return HANDLE(ret), err
 	}
 
-	return syscall.Handle(ret), nil
+	return HANDLE(ret), nil
 }

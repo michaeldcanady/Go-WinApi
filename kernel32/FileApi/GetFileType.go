@@ -2,27 +2,24 @@ package fileapi
 
 import (
 	"fmt"
-	"syscall"
 )
 
-func GetFileType(hFile syscall.Handle) (string, error) {
+var(
+	fileType = map[int64]string {
+		0x0001: FILE_TYPE_DISK,
+		0x0002: FILE_TYPE_CHAR,
+		0x0003: FILE_TYPE_PIPE,
+		0x8000: FILE_TYPE_REMOTE,
+	}
+)
 
-	ret, _, err := getFileTypeProc.Call(uintptr(hFile))
+func GetFileType(hFile HANDLE) (string, error) {
 
-	switch ret {
-	case 0x0000:
-		if fmt.Sprintf("%s", err) != "The handle is invalid." {
-			return "FILE_TYPE_UNKNOWN", nil
-		}
-	case 0x0001:
-		return "FILE_TYPE_DISK", nil
-	case 0x0002:
-		return "FILE_TYPE_CHAR", nil
-	case 0x0003:
-		return "FILE_TYPE_PIPE", nil
-	case 0x8000:
-		return "FILE_TYPE_REMOTE", nil
+	ret, _, err := procGetFileType.Call(uintptr(hFile))
+
+	if ret == 0 {
+		return "FILE_TYPE_UNKNOWN", err
 	}
 
-	return "", err
+	return SeperateFlags(ret, fileType)[0], nil
 }

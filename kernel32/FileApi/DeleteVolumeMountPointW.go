@@ -1,20 +1,11 @@
 package fileapi
 
-import (
-	"fmt"
-	"syscall"
-	"unsafe"
-)
+func DeleteVolumeMountPointW(volumeMountPoint string) error {
 
-func DeleteVolumeMountPointW(volumeMountPoint string) {
-	vmpp, err := syscall.UTF16PtrFromString(volumeMountPoint)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	ret, _, err := procDeleteVolumeMountPointW.Call(uintptr(unsafe.Pointer(vmpp)))
+	ret, _, err := procDeleteVolumeMountPointW.Call(UintptrFromString(volumeMountPoint))
 	if ret == 0 {
-		fmt.Println(err)
+		return err
 	}
-	fmt.Println(ret)
+	
+	return nil
 }

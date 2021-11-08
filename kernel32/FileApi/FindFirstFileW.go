@@ -6,16 +6,11 @@ import (
 )
 
 func FindFirstFileW(fileName string) (syscall.Handle, Win32FindDataW, error) {
+	
 	var lpFindFileData WIN32_FIND_DATAA
 
-	lpFileName, err := syscall.UTF16PtrFromString(fileName)
-
-	if err != nil {
-		return 0, Win32FindDataW{}, err
-	}
-
-	ret, _, err := findFirstFileWProc.Call(
-		fileName,
+	ret, _, err := procFindFirstFileW.Call(
+		UintptrFromString(fileName),
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 	)
 

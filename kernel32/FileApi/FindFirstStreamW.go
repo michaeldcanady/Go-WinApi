@@ -5,12 +5,12 @@ import (
 	"unsafe"
 )
 
-func FindFirstStreamW(lpFileName string) (syscall.Handle, Win32FindDataW, error) {
+func FindFirstStreamW(fileName string) (syscall.Handle, Win32FindDataW, error) {
 
 	var lpFindFileData WIN32_FIND_DATAA
 
-	ret, _, err := findFirstStreamWProc.Call(
-		UintptrFromString(&lpFileName),
+	ret, _, err := procFindFirstStreamW.Call(
+		UintptrFromString(fileName),
 		0,
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 		0,

@@ -50,22 +50,22 @@ func LPSTRsToStrings(in [][]uint16) []string {
 	return out
 }
 
-func UintptrFromString(s *string) uintptr {
-	if *s == "" {
+func UintptrFromString(s string) uintptr {
+	if s == "" {
 		return 0
 	}
 	var ret *uint16
 	// Some Windows API functions like GetTextExtentPoint32() panic when given
 	// a string containing NUL. This block checks & returns the part before NUL.
-	zeroAt := strings.Index(*s, "\x00")
+	zeroAt := strings.Index(s, "\x00")
 	if zeroAt == -1 {
-		ret, _ = syscall.UTF16PtrFromString(*s)
+		ret, _ = syscall.UTF16PtrFromString(s)
 		return uintptr(unsafe.Pointer(ret))
 	}
 	if zeroAt == 0 {
 		return 0
 	}
-	ret, _ = syscall.UTF16PtrFromString((*s)[:zeroAt])
+	ret, _ = syscall.UTF16PtrFromString((s)[:zeroAt])
 	return uintptr(unsafe.Pointer(ret))
 }
 

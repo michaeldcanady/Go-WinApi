@@ -6,10 +6,6 @@ import (
 	"unsafe"
 )
 
-const (
-	FILE_SUPPORTS_USN_JOURNAL uint32 = 0x02000000
-)
-
 var (
 	volumeFlags = map[int64]string{
 		0x00000002: "FILE_CASE_PRESERVED_NAMES",
@@ -51,14 +47,8 @@ func GetVolumeInformationW(rootPathName string) (volume Volume, err error) {
 		nFileSystemNameSize    uint32 = syscall.MAX_PATH + 1
 	)
 
-	//Converts rootPathName to UTF16 Pointer required by procGetVolumeInformationW
-	pointer, err := syscall.UTF16PtrFromString(rootPathName)
-	if err != nil {
-		return
-	}
-
 	ret, _, err := procGetVolumeInformationW.Call(
-		uintptr(unsafe.Pointer(pointer)),
+		UintptrFromString(rootPathName),
 		uintptr(unsafe.Pointer(&VolumeNameBuffer[0])),
 		uintptr(nVolumeNameSize),
 		uintptr(unsafe.Pointer(&VolumeSerialNumber)),

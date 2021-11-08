@@ -9,14 +9,8 @@ func GetShortPathNameW(longPath string) (string, error) {
 	var bufSize uint32 = syscall.MAX_PATH // 260
 	lpszShortPath := make([]uint16, bufSize)
 
-	lpszLongPath, err := syscall.UTF16PtrFromString(longPath)
-
-	if err != nil {
-		return "", err
-	}
-
-	ret, _, err := getLongPathNameWProc.Call(
-		lpszLongPath,
+	ret, _, err := procGetLongPathNameW.Call(
+		UintptrFromString(longPath),
 		uintptr(unsafe.Pointer(&lpszShortPath[0])),
 		uintptr(bufSize),
 	)

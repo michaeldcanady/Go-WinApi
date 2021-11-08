@@ -1,7 +1,7 @@
 package fileapi
 
-func GetFileAttributesW(lpFileName string) ([]string, error) {
-	ret, _, err := getFileAttributesWProc.Call(UintptrFromString(&lpFileName))
+func GetFileAttributesW(fileName string) ([]string, error) {
+	ret, _, err := procGetFileAttributesW.Call(UintptrFromString(fileName))
 
 	if ret == 0xFFFFFFFF {
 		return []string{}, err

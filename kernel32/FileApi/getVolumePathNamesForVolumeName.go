@@ -21,14 +21,8 @@ func GetVolumePathNamesForVolumeName(volName []string) ([]string, error) {
 		pathNames = make([]uint16, pathNamesLen)
 		pathNamesLen *= 2
 
-		lpszVolumeName, err := syscall.UTF16PtrFromString(volName[0])
-
-		if err != nil {
-			return []string{}, err
-		}
-
 		rc, _, err := getVolumePathNamesForVolumeNameWProc.Call(
-			lpszVolumeName,
+			UintptrFromString(volName[0]),
 			uintptr(unsafe.Pointer(&pathNames[0])),
 			uintptr(pathNamesLen),
 			uintptr(unsafe.Pointer(&pathNamesLen)),

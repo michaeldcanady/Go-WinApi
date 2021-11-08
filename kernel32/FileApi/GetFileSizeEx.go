@@ -1,12 +1,8 @@
 package fileapi
 
-import (
-	"syscall"
-)
+func GetFileSizeEx(hFile HANDLE) (int64, error) {
 
-func GetFileSizeEx(hFile syscall.Handle) (int64, error) {
-
-	ret, _, err := getFileSizeProc.Call(
+	ret, _, err := procGetFileSizeEx.Call(
 		uintptr(hFile),
 		0,
 	)

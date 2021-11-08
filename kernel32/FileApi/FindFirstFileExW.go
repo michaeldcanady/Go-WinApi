@@ -5,26 +5,6 @@ import (
 	"unsafe"
 )
 
-const (
-	//dwAdditionalFlags
-	FIND_FIRST_EX_CASE_SENSITIVE       = 1
-	FIND_FIRST_EX_LARGE_FETCH          = 2
-	FIND_FIRST_EX_ON_DISK_ENTRIES_ONLY = 4
-
-	//FINDEX_INFO_LEVELS
-	FindExInfoStandard     = 0
-	FindExInfoBasic        = 1
-	FindExInfoMaxInfoLevel = 2
-
-	//FINDEX_SEARCH_OPS
-	FindExSearchNameMatch          = 0
-	FindExSearchLimitToDirectories = 1
-	FindExSearchLimitToDevices     = 2
-	FindExSearchMaxSearchOp        = 3
-
-	MAXDWORD = 4294967295
-)
-
 var (
 	dwFileTypeFlags = map[int64]string{
 		0x00000001: "VFT_APP",
@@ -74,18 +54,15 @@ var (
 	}
 )
 
+//FindFirstFileExW Searches a directory for a file or subdirectory with a name and attributes that match those specified.
+//For the most basic version of this function, see FindFirstFile.
+//To perform this operation as a transacted operation, use the FindFirstFileTransacted function.
 func FindFirstFileExW(FileName string, fInfoLevelId int32, fSearchOp int32, dwAdditionalFlags DWORD) (syscall.Handle, Win32FindDataW, error) {
 
 	var lpFindFileData WIN32_FIND_DATAA
 
-	lpFileName, err := syscall.UTF16PtrFromString(FileName)
-
-	if err != nil {
-		return 0, WIN32_FIND_DATAA{}, err
-	}
-
-	ret, _, err := findFirstFileExWProc.Call(
-		lpFileName,
+	ret, _, err := procFindFirstFileExW.Call(
+		UintptrFromString(FileName),
 		uintptr(fInfoLevelId),                    // [in] FINDEX_INFO_LEVELS
 		uintptr(unsafe.Pointer(&lpFindFileData)), // [out] LPVOID
 		uintptr(fSearchOp),                       // [in] FINDEX_SEARCH_OPS
