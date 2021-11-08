@@ -6,7 +6,11 @@ import (
 	"syscall"
 	"unsafe"
 
+<<<<<<< HEAD
 	"github.com/michaeldcanady/Go-WinApi/Windows-Api/advapi32/sddl"
+=======
+	"github.com/michaeldcanady/Go-WinApi/Go-WinApi/Windows-Api/advapi32/sddl"
+>>>>>>> 48f865a00d92ed11f1c7e011e6f7b39a9a23ccd9
 )
 
 const (

@@ -2,14 +2,12 @@ package fileapi
 
 import "syscall"
 
+var (
+	procDeleteFileW = kernel32.NewProc("DeleteFileW")
+)
+
 func DeleteFileW(FileName string) error {
-	fileNameInt, err := syscall.UTF16PtrFromString(FileName)
-
-	if err != nil {
-		return err
-	}
-
-	ret, _, err := procDeleteFileW.Call(fileNameInt)
+	ret, _, err := procDeleteFileW.Call(syscall.UTF16FromString(FileName))
 
 	if ret == 0 {
 		return err

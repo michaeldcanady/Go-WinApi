@@ -4,16 +4,11 @@ import (
 	"syscall"
 )
 
-func CreateFile2(fileName string, dwDesiredAccess, dwShareMode, dwCreationDisposition DWORD) (syscall.Handle, error) {
+var createFile2Proc = kernel32.NewProc("CreateFile2")
 
-	lpFileName, err := syscall.UTF16PtrFromString(fileName)
-
-	if err != nil {
-		return 0, nil
-	}
-
+func CreateFile2(lpFileName string, dwDesiredAccess, dwShareMode, dwCreationDisposition DWORD) (syscall.Handle, error) {
 	ret, _, err := createFile2Proc.Call(
-		lpFileName,
+		syscall.UTF16FromString(lpFileName),
 		uintptr(dwDesiredAccess),
 		uintptr(dwShareMode),
 		uintptr(dwCreationDisposition),

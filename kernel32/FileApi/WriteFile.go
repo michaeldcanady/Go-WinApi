@@ -5,24 +5,28 @@ import (
 	"unsafe"
 )
 
-func WriteFile(hFile HANDLE, data string) (bitsWritten int64, err error) {
+var writeFileProc = kernel32.NewProc("WriteFile")
+
+func WriteFile(hFile HANDLE, data string) error {
 
 	lpBuffer, err := syscall.UTF16FromString(data)
 	if err != nil {
-		return bitsWritten, err
+		return err
 	}
 
+	var buffer uint32
+
 	ret, _, err := writeFileProc.Call(
-		hFile.toUTF16Ptr(),                    //IN hFile
-		uintptr(unsafe.Pointer(&lpBuffer)),    // IN lpBuffer
-		uintptr(len(lpBuffer)),                // IN nNumberOfBytesToWrite
-		uintptr(unsafe.Pointer(&bitsWritten)), // OUT, OPTIONAL lpNumberOfBytesWritten
-		0,                                     // IN, OUT, OPTIONAL lpOverlapped
+		hFile.toUTF16Ptr(),
+		uintptr(unsafe.Pointer(&lpBuffer)),
+		uintptr(len(lpBuffer)),
+		uintptr(unsafe.Pointer(&buffer)),
+		0,
 	)
 
 	if ret == 0 {
-		return bitsWritten, err
+		return err
 	}
 
-	return bitsWritten, nil
+	return nil
 }
