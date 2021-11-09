@@ -1,7 +1,6 @@
 package winapi
 
 import (
-	"fmt"
 	"syscall"
 	"unsafe"
 
@@ -17,9 +16,11 @@ var (
 // Removes user and User directory!!!
 func DeleteProfile(SID string) error {
 	UserSid := uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(SID)))
-	ret, _, _ := procDeleteProfile.Call(UserSid, 0, 0)
+	ret, _, err := procDeleteProfile.Call(UserSid, 0, 0)
 	switch ret {
+	case 0:
+		return err
 	default:
-		return fmt.Errorf("Error has appeared, return value %x.\n Please create an issue.", ret)
+		return nil
 	}
 }

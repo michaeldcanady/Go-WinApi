@@ -1,12 +1,14 @@
 package fileapi
 
 var (
+	//Deprecated
 	shareMode = map[string]int{
 		"DO_NOT_FILE_SHARE": 0x00000000,
 		"FILE_SHARE_DELETE": 0x00000004,
 		"FILE_SHARE_READ":   0x00000001,
 		"FILE_SHARE_WRITE":  0x00000002,
 	}
+	//Deprecated
 	creationDisposition = map[string]int{
 		"CREATE_NEW":        1,
 		"CREATE_ALWAYS":     2,
@@ -14,6 +16,7 @@ var (
 		"OPEN_ALWAYS":       4,
 		"TRUNCATE_EXISTING": 5,
 	}
+	//Deprecated
 	FlagsAndAttributes = map[string]int{
 		"FILE_ATTRIBUTE_ARCHIVE":   32,
 		"FILE_ATTRIBUTE_ENCRYPTED": 16384,
@@ -40,7 +43,7 @@ func CreateFileW(fileName string, dwDesiredAccess, dwShareMode, lpSecurityAttrib
 		uintptr(dhTemplateFile),        // [in] HANDLE
 	)
 
-	if ret == 0 {
+	if ret == 0 || ret == INVALID_HANDLE_VALUE.ToUintPtr() {
 		return HANDLE(0), err
 	}
 

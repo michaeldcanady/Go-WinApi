@@ -22,19 +22,25 @@ func (d DriveType) String() string {
 }
 
 //DRIVE_UNKNOWN The drive type cannot be determined.
-const DRIVE_UNKNOWN DriveType = 0 //0
+const DRIVE_UNKNOWN DriveType = 0
+
 //DRIVE_NO_ROOT_DIR The root path is invalid; for example, there is no volume mounted at the specified path.
-const DRIVE_NO_ROOT_DIR DriveType = 1 //1
+const DRIVE_NO_ROOT_DIR DriveType = 1
+
 //DRIVE_REMOVABLE The drive has removable media; for example, a floppy drive, thumb drive, or flash card reader.
-const DRIVE_REMOVABLE DriveType = 2 //2
+const DRIVE_REMOVABLE DriveType = 2
+
 //DRIVE_FIXED The drive has fixed media; for example, a hard disk drive or flash drive.
-const DRIVE_FIXED DriveType = 3 //3
+const DRIVE_FIXED DriveType = 3
+
 //DRIVE_REMOTE The drive is a remote (network) drive.
-const DRIVE_REMOTE DriveType = 4 //4
+const DRIVE_REMOTE DriveType = 4
+
 //DRIVE_CDROM The drive is a CD-ROM drive.
-const DRIVE_CDROM DriveType = 5 //5
+const DRIVE_CDROM DriveType = 5
+
 //DRIVE_RAMDISK The drive is a RAM disk.
-const DRIVE_RAMDISK DriveType = 6 //6
+const DRIVE_RAMDISK DriveType = 6
 
 //Possible Security Attributes
 
@@ -124,6 +130,8 @@ const FINDEX_SEARCH_LIMIT_TO_DIRECTORIES SearchOps = 2
 //For more information, see
 //Device Interface Classes.
 const FINDEX_SEARCH_LIMIT_TO_DEVICES SearchOps = 3
+
+//FINDEX_SEARCH_MAX_SEARCH_OP Undefined by documentation.
 const FINDEX_SEARCH_MAX_SEARCH_OP SearchOps = 4
 
 //FileType
@@ -143,6 +151,67 @@ const FILE_TYPE_PIPE FileType = 0x0003
 
 //FILE_TYPE_REMOTE Unused.
 const FILE_TYPE_REMOTE FileType = 0x8000
+
+//CreationDisposition
+type CreationDisposition int64
+
+//String
+func (c CreationDisposition) String() string {
+	return [...]string{"CREATE_NEW", "CREATE_ALWAYS", "OPEN_EXISTING", "OPEN_ALWAYS", "TRUNCATE_EXISTING"}[c]
+}
+
+//CREATE_NEW
+const CREATE_NEW = 1
+
+//CREATE_ALWAYS
+const CREATE_ALWAYS = 2
+
+//OPEN_EXISTING
+const OPEN_EXISTING = 3
+
+//OPEN_ALWAYS
+const OPEN_ALWAYS = 4
+
+//TRUNCATE_EXISTING
+const TRUNCATE_EXISTING = 5
+
+//ShareMode The requested sharing mode of the file or device, which can be read, write, both, delete, all of these, or none (refer to the following table). Access requests to attributes or extended attributes are not affected
+//by this flag.
+//
+// If this parameter is zero and CreateFile succeeds, the file or device cannot be shared and cannot be opened again until the handle to the file or device is closed. For more information, see the Remarks section.
+//
+//You cannot request a sharing mode that conflicts with the access mode that is specified in an existing request that has an open handle. CreateFile would fail and the GetLastError function would return
+//ERROR_SHARING_VIOLATION.
+//
+//To enable a process to share a file or device while another process has the file or device open, use a compatible combination of one or more of the following values.
+//For more information about valid combinations of this parameter with the dwDesiredAccess parameter, see Creating and Opening Files.
+type ShareMode int64
+
+//DO_NOT_FILE_SHARE Prevents other processes from opening a file or device if they request delete, read, or write access.
+const DO_NOT_FILE_SHARE = 0x00000000
+
+//FILE_SHARE_READ Enables subsequent open operations on a file or device to request delete access.
+//
+//Otherwise, other processes cannot open the file or device if they request delete access.
+//
+//If this flag is not specified, but the file or device has been opened for delete access, the function fails.
+//
+//Note  Delete access allows both delete and rename operations.
+const FILE_SHARE_READ = 0x00000001
+
+//FILE_SHARE_WRITE Enables subsequent open operations on a file or device to request read access.
+//Otherwise, other processes cannot open the file or device if they request read access.
+//
+//If this flag is not specified, but the file or device has been opened for read access, the function fails.
+const FILE_SHARE_WRITE = 0x00000002
+
+//FILE_SHARE_DELETE Enables subsequent open operations on a file or device to request write access. Otherwise, other processes cannot open the file or device if they request write access.
+//If this flag is not specified, but the file or device has been opened for write access or has a file mapping with write access, the function fails.
+const FILE_SHARE_DELETE = 0x00000004
+
+const GENERIC_READ = 2147483648
+
+const FILE_FLAG_BACKUP_SEMANTICS = 2147483648
 
 type SecurityAttributeError struct {
 	err string

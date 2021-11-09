@@ -1,7 +1,6 @@
 package fileapi
 
 import (
-	"errors"
 	"math/bits"
 	"regexp"
 	"strings"
@@ -93,13 +92,13 @@ func validateDiskFormat(disk string) (string, error) {
 		if IsLocal(disk) {
 			return disk, nil
 		} else {
-			return "", errors.New("Invalid local formatting please format 'C:\\'")
+			return "", NewLogicalDriveError("Invalid local formatting please format 'C:\\'")
 		}
 	} else if strings.HasPrefix(disk, "\\") {
 		return disk, nil
 	}
 
-	return "", errors.New("Invalid drive formatting please format 'C:\\' for local and '\\\\path\\to\\drive\\' for remote.")
+	return "", NewLogicalDriveError("Invalid drive formatting please format 'C:\\' for local and '\\\\path\\to\\drive\\' for remote.")
 }
 
 func highAndLowToSize(FileSizeHigh, FileSizeLow uint32) int {
