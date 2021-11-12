@@ -4,6 +4,7 @@ import (
 	"unsafe"
 )
 
+//FindNextFileW Continues a file search from a previous call to the FindFirstFile, FindFirstFileEx, or FindFirstFileTransacted functions.
 func FindNextFileW(hFindFile HANDLE) (Win32FindDataW, error) {
 
 	var lpFindFileData WIN32_FIND_DATAA
@@ -13,11 +14,9 @@ func FindNextFileW(hFindFile HANDLE) (Win32FindDataW, error) {
 		uintptr(unsafe.Pointer(&lpFindFileData)),
 	)
 
-	data := newWin32FindData(lpFindFileData)
-
 	if ret == 0 {
-		return data, err
+		return Win32FindDataW{}, err
 	}
 
-	return data, nil
+	return newWin32FindData(lpFindFileData), nil
 }

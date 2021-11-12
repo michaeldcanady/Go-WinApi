@@ -24,26 +24,20 @@ const (
 //EnumSystemFirmwareTables
 func EnumSystemFirmwareTables(firmwareTableProviderSignature FirmwareTable) (tables []string, err error) {
 
-	ret, _, err := procEnumSystemFirmwareTables.Call(
-		uintptr(firmwareTableProviderSignature),
-		uintptr(unsafe.Pointer(&make([]uint8, 1)[0])),
-		uintptr(1),
-	)
-
-	if ret == 0 {
-		return
-	}
-
+	var ret uintptr = 1
 	pFirmwareTableEnumBuffer := make([]uint8, ret)
 
-	ret, _, err = procEnumSystemFirmwareTables.Call(
-		uintptr(firmwareTableProviderSignature),
-		uintptr(unsafe.Pointer(&pFirmwareTableEnumBuffer[0])),
-		uintptr(ret),
-	)
+	for i := 0; i < 2; i++ {
+		ret, _, err = procEnumSystemFirmwareTables.Call(
+			uintptr(firmwareTableProviderSignature),
+			uintptr(unsafe.Pointer(&pFirmwareTableEnumBuffer[0])),
+			uintptr(ret),
+		)
 
-	if ret == 0 {
-		return
+		if ret == 0 {
+			return
+		}
+
 	}
 
 	for i := 0; i < len(pFirmwareTableEnumBuffer); i += 4 {

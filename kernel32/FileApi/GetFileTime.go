@@ -24,15 +24,15 @@ func GetFileTime(hFile HANDLE) (time.Time, time.Time, time.Time, error) {
 
 	CreationTime, err := timezoneapi.FileTimeToSystemTime(dwCreationTime)
 	if err != nil {
-		panic(err)
+		return time.Time{}, time.Time{}, time.Time{}, err
 	}
 	LastAccessTime, err := timezoneapi.FileTimeToSystemTime(dwLastAccessTime)
 	if err != nil {
-		panic(err)
+		return time.Time{}, time.Time{}, time.Time{}, err
 	}
 	LastWriteTime, err := timezoneapi.FileTimeToSystemTime(dwLastWriteTime)
 	if err != nil {
-		panic(err)
+		return time.Time{}, time.Time{}, time.Time{}, err
 	}
 
 	return CreationTime, LastAccessTime, LastWriteTime, nil

@@ -5,6 +5,7 @@ import (
 	"unsafe"
 )
 
+//FindFirstVolume Retrieves the name of a volume on a computer. FindFirstVolume is used to begin scanning the volumes of a computer.
 func FindFirstVolume() (HANDLE, string, error) {
 	const invalidHandleValue = ^uintptr(0)
 

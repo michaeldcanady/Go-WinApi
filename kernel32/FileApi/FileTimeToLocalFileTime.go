@@ -4,6 +4,7 @@ import (
 	timezoneapi "github.com/michaeldcanady/Go-WinApi/kernel32/TimezoneApi"
 )
 
+//FileTimeToLocalFileTime Converts a file time to a local file time.
 func FileTimeToLocalFileTime(lpFileTime timezoneapi.FILETIME) (lpLocalFileTime timezoneapi.FILETIME, err error) {
 
 	ret, _, err := procFileTimeToLocalFileTime.Call(

@@ -4,9 +4,7 @@ import (
 	"unsafe"
 )
 
-func GetDiskFreeSpaceW(lpDirectoryName string) (uint32, uint32, uint32, uint32, error) {
-
-	var lpSectorsPerCluster, lpBytesPerSector, lpNumberOfFreeClusters, lpTotalNumberOfClusters uint32
+func GetDiskFreeSpaceW(lpDirectoryName string) (lpSectorsPerCluster uint32, lpBytesPerSector uint32, lpNumberOfFreeClusters uint32, lpTotalNumberOfClusters uint32, err error) {
 
 	ret, _, err := procGetDiskFreeSpaceW.Call(
 		UintptrFromString(lpDirectoryName),
