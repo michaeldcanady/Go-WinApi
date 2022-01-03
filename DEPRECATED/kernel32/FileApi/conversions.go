@@ -1,4 +1,4 @@
-package GoWinApi
+package fileapi
 
 import (
 	"math/bits"
