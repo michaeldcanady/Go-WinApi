@@ -122,11 +122,10 @@ type Volume struct {
 	nFileSystemNameSize      uint32
 }
 
-func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength uint32, lpFileSystemFlags uint32, lpFileSystemNameBuffer []uint16, nFileSystemNameSize uint32) Volume {
-	label := syscall.UTF16ToString(lpVolumeNameBuffer)
+func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, nFileSystemNameSize uint32, lpFileSystemNameBuffer []uint16) Volume {
 	return Volume{
 		PathName:                 lpRootPathName,
-		VolumeLabel:              label,
+		VolumeLabel:              syscall.UTF16ToString(lpVolumeNameBuffer),
 		nVolumeNameSize:          nVolumeNameSize,
 		SerialNumber:             lpVolumeSerialNumber,
 		LpMaximumComponentLength: lpMaximumComponentLength,
@@ -137,15 +136,15 @@ func newVolume(lpRootPathName string, lpVolumeNameBuffer []uint16, nVolumeNameSi
 }
 
 type _SECURITY_ATTRIBUTES struct {
-	nLength              DWORD
-	lpSecurityDescriptor LPVOID
+	nLength              uint32
+	lpSecurityDescriptor uintptr
 	bInheritHandle       bool
 }
 
-func NewSecurityAttribtute(nLength uint32, lpSecurityDescriptor LPVOID, bInheritHandle bool) _SECURITY_ATTRIBUTES {
+func NewSecurityAttribtute(nLength uint32, lpSecurityDescriptor uintptr, bInheritHandle bool) _SECURITY_ATTRIBUTES {
 
 	return _SECURITY_ATTRIBUTES{
-		nLength:              DWORD(nLength),
+		nLength:              nLength,
 		lpSecurityDescriptor: lpSecurityDescriptor,
 		bInheritHandle:       bInheritHandle,
 	}

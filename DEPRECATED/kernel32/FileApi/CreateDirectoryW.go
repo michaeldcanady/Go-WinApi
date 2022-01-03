@@ -3,8 +3,8 @@ package fileapi
 func CreateDirectoryW(pathName string, SecurityAttributes SecurityAttribute) error {
 
 	r, _, err := procCreateDirectoryW.Call(
-		UintptrFromString(pathName), // [in] LPCTSTR
-		uintptr(SecurityAttributes), // [in] LPSECURITY_ATT...
+		UintptrFromString(pathName),
+		uintptr(SecurityAttributes),
 	)
 
 	if r == 0 {

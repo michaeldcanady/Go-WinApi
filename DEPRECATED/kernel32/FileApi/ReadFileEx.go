@@ -5,6 +5,8 @@ import (
 	"unsafe"
 )
 
+//ReadFileEx Reads data from the specified file or input/output (I/O) device. It reports its completion status asynchronously, calling the specified completion
+//routine when reading is completed or canceled and the calling thread is in an alertable wait state.
 func ReadFileEx(hFile HANDLE) (string, error) {
 
 	var bufSize, err = GetFileSize(hFile)

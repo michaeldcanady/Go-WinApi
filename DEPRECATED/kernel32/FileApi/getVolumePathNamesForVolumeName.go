@@ -6,10 +6,6 @@ import (
 )
 
 func GetVolumePathNamesForVolumeName(volName []string) ([]string, error) {
-	const (
-		errorMoreData = 234
-		NUL           = 0x0000
-	)
 
 	var (
 		pathNamesLen uint32
