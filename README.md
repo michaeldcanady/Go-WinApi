@@ -8,8 +8,9 @@
 
 <h4 align="center">A Golang Wrapper For The Windows API.</h4>
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/michaeldcanady/Go-WinApi)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/michaeldcanady/go-winapi)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/michaeldcanady/Go-WinApi?style=plastic)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/michaeldcanady/go-winapi?style=plastic)
+![GitHub go.mod Go version](https://img.shields.io/github/repo-size/michaeldcanady/go-winapi?style=plastic)
 [![Go Report Card](https://goreportcard.com/badge/github.com/michaeldcanady/Go-WinApi)](https://goreportcard.com/report/github.com/michaeldcanady/Go-WinApi)
 
 <p align="center">
