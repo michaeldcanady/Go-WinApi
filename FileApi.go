@@ -460,7 +460,7 @@ func DeleteVolumeMountPointW(volumeMountPoint string) error {
 }
 
 //FileTimeToLocalFileTime Converts a file time to a local file time.
-func FileTimeToLocalFileTime(lpFileTime FILETIME) (lpLocalFileTime FILETIME, err error) {
+func FileTimeToLocalFileTime(lpFileTime FileTime) (lpLocalFileTime FileTime, err error) {
 
 	ret, _, err := procFileTimeToLocalFileTime.Call(
 		lpFileTime.ToUintPtr(),
@@ -778,7 +778,7 @@ func GetFileSizeEx(hFile HANDLE) (int64, error) {
 //GetFileTime Retrieves the date and time that a file or directory was created, last accessed, and last modified.
 func GetFileTime(hFile HANDLE) (time.Time, time.Time, time.Time, error) {
 
-	var dwCreationTime, dwLastAccessTime, dwLastWriteTime FILETIME
+	var dwCreationTime, dwLastAccessTime, dwLastWriteTime FileTime
 
 	ret, _, err := procGetFileTime.Call(
 		uintptr(hFile),
@@ -1046,7 +1046,7 @@ func GetVolumePathNamesForVolumeNameW(volName []string) ([]string, error) {
 }
 
 //LocalFileTimeToFileTime Converts a local file time to a file time based on the Coordinated Universal Time (UTC).
-func LocalFileTimeToFileTime(in FILETIME) (out FILETIME, err error) {
+func LocalFileTimeToFileTime(in FileTime) (out FileTime, err error) {
 
 	ret, _, err := procLocalFileTimeToFileTime.Call(
 		in.ToUintPtr(),
@@ -1117,7 +1117,7 @@ func ReadFileEx(hFile HANDLE) (string, error) {
 }
 
 //SetFileTime Sets the date and time that the specified file or directory was created, last accessed, or last modified.
-func SetFileTime(hFile HANDLE, lpCreationTime, lpLastAccessTime, lpLastWriteTime FILETIME) error {
+func SetFileTime(hFile HANDLE, lpCreationTime, lpLastAccessTime, lpLastWriteTime FileTime) error {
 	ret, _, err := procSetFileTime.Call(
 		hFile.ToUintPtr(),
 		lpCreationTime.ToUintPtr(),
