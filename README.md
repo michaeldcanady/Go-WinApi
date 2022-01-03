@@ -14,6 +14,7 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/license/michaeldcanady/go-winapi?style=plastic)
 ![GitHub go.mod Go version](https://img.shields.io/github/issues/michaeldcanady/go-winapi?style=plastic)
 ![GitHub go.mod Go version](https://img.shields.io/github/last-commit/michaeldcanady/go-winapi?style=plastic)
+![GitHub go.mod Go version](https://img.shields.io/github/issues-pr-raw/michaeldcanady/go-winapi?style=plastic)
 [![Go Report Card](https://goreportcard.com/badge/github.com/michaeldcanady/Go-WinApi)](https://goreportcard.com/report/github.com/michaeldcanady/Go-WinApi)
 
 <p align="center">
