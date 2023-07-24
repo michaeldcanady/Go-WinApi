@@ -27,18 +27,18 @@ const (
 	CONNECT_CRED_RESET     ConnectionFlag = 0x00002000
 
 	//RESOURCE_CONNECTED Current connections to network resources.
-	RESOURCE_CONNECTED NetResourceScope = iota
+	RESOURCE_CONNECTED NetResourceScope = 0x00000001
 	//RESOURCE_GLOBALNET All network resources. These may or may not be connected.
-	RESOURCE_GLOBALNET
+	RESOURCE_GLOBALNET NetResourceScope = iota
 	//RESOURCE_CONTEXT The network resources associated with the user's current and default network context. The meaning of this is provider-specific.
 	RESOURCE_CONTEXT
 
+	//RESOURCETYPE_ANY The resource matches more than one type, for example, a container of both print and disk resources, or a resource which is neither print or disk.
+	RESOURCETYPE_ANY NetResourceType = iota
 	//RESOURCETYPE_DISK The resource is a shared disk volume.
-	RESOURCETYPE_DISK NetResourceType = iota
+	RESOURCETYPE_DISK
 	//RESOURCETYPE_PRINT The resource is a shared printer.
 	RESOURCETYPE_PRINT
-	//RESOURCETYPE_ANY The resource matches more than one type, for example, a container of both print and disk resources, or a resource which is neither print or disk.
-	RESOURCETYPE_ANY
 
 	//RESOURCEDISPLAYTYPE_NETWORK The resource is a network provider.
 	RESOURCEDISPLAYTYPE_NETWORK NetResourceDisplayType = iota

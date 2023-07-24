@@ -10,14 +10,14 @@ import (
 )
 
 type NetResource struct {
-	Scope       NetResourceScope
-	Type        NetResourceType
-	DisplayType NetResourceDisplayType
-	Usage       NetResourceUsage
-	LocalName   uintptr
-	RemoteName  uintptr
-	Comment     uintptr
-	Provider    uintptr
+	dwScope       NetResourceScope
+	dwType        NetResourceType
+	dwDisplayType NetResourceDisplayType
+	dwUsage       NetResourceUsage
+	lpLocalName   uintptr
+	lpRemoteName  uintptr
+	lpComment     uintptr
+	lpProvider    uintptr
 }
 
 // NewNetResource creates a new NetResource struct initialized with the provided values.
@@ -36,36 +36,36 @@ type NetResource struct {
 // Returns:
 //
 //	A new NetResource struct initialized with the provided values.
-func NewNetResource(localName, remoteName, comment, provider string, scope NetResourceScope, Type NetResourceType, displayType NetResourceDisplayType, usage NetResourceUsage) (NetResource, error) {
+func NewNetResource(localName, remoteName, comment, provider string, scope NetResourceScope, Type NetResourceType, displayType NetResourceDisplayType, usage NetResourceUsage) (*NetResource, error) {
 
 	_localName, err := syscall.UTF16PtrFromString(localName)
 	if err != nil {
-		return NetResource{}, fmt.Errorf("unable to convert localName to UTF16Ptr: %s", err)
+		return nil, fmt.Errorf("unable to convert localName to UTF16Ptr: %s", err)
 	}
 
 	_remoteName, err := syscall.UTF16PtrFromString(remoteName)
 	if err != nil {
-		return NetResource{}, fmt.Errorf("unable to convert remoteName to UTF16Ptr: %s", err)
+		return nil, fmt.Errorf("unable to convert remoteName to UTF16Ptr: %s", err)
 	}
 
 	_comment, err := syscall.UTF16PtrFromString(comment)
 	if err != nil {
-		return NetResource{}, fmt.Errorf("unable to convert comment to UTF16Ptr: %s", err)
+		return nil, fmt.Errorf("unable to convert comment to UTF16Ptr: %s", err)
 	}
 
 	_provider, err := syscall.UTF16PtrFromString(provider)
 	if err != nil {
-		return NetResource{}, fmt.Errorf("unable to convert provider to UTF16Ptr: %s", err)
+		return nil, fmt.Errorf("unable to convert provider to UTF16Ptr: %s", err)
 	}
 
-	return NetResource{
-		Scope:       scope,
-		Type:        Type,
-		DisplayType: displayType,
-		Usage:       usage,
-		LocalName:   uintptr(unsafe.Pointer(_localName)),
-		RemoteName:  uintptr(unsafe.Pointer(_remoteName)),
-		Comment:     uintptr(unsafe.Pointer(_comment)),
-		Provider:    uintptr(unsafe.Pointer(_provider)),
+	return &NetResource{
+		//dwScope:       scope, NEED MORE WORK
+		//dwType:        Type, NEED MORE WORK
+		//dwDisplayType: displayType, NEED MORE WORK
+		//dwUsage:       usage, NEED MORE WORK
+		lpLocalName:  uintptr(unsafe.Pointer(_localName)),
+		lpRemoteName: uintptr(unsafe.Pointer(_remoteName)),
+		lpComment:    uintptr(unsafe.Pointer(_comment)),
+		lpProvider:   uintptr(unsafe.Pointer(_provider)),
 	}, nil
 }

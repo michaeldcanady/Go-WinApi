@@ -53,20 +53,36 @@ var (
 // More detailed information at: https://docs.microsoft.com/en-us/windows/win32/api/winnetwk/nf-winnetwk-wnetaddconnection2w
 func NetAddConnection2(resource *NetResource, pass, user string, flags ConnectionFlag) error {
 
-	_pass, err := syscall.UTF16PtrFromString(pass)
-	if err != nil {
-		return fmt.Errorf("unable to convert password to UTF16Ptr: %s", err)
-	}
-	_user, err := syscall.UTF16PtrFromString(user)
-	if err != nil {
-		return fmt.Errorf("unable to convert username to UTF16Ptr: %s", err)
+	var (
+		_pass *uint16
+		_user *uint16
+		err   error
+	)
+
+	if pass != "" {
+		_pass, err = syscall.UTF16PtrFromString(pass)
+		if err != nil {
+			return fmt.Errorf("unable to convert pass to UTF16Ptr: %s", err)
+		}
+	} else {
+		_pass = nil
 	}
 
-	password := uintptr(unsafe.Pointer(_pass))
-	username := uintptr(unsafe.Pointer(_user))
+	if user != "" {
+		_user, err = syscall.UTF16PtrFromString(user)
+		if err != nil {
+			return fmt.Errorf("unable to convert user to UTF16Ptr: %s", err)
+		}
+	} else {
+		_user = nil
+	}
+
+	_password := uintptr(unsafe.Pointer(_pass))
+	_username := uintptr(unsafe.Pointer(_user))
+	_resource := uintptr(unsafe.Pointer(resource))
 	connectionFlags := uintptr(flags)
 
-	ret, _, _ := procWNetAddConnection2.Call(uintptr(unsafe.Pointer(&resource)), password, username, connectionFlags)
+	ret, _, _ := procWNetAddConnection2.Call(_resource, _password, _username, connectionFlags)
 
 	if ret != 0 {
 		return syscall.Errno(ret)

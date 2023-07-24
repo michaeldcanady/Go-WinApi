@@ -71,7 +71,7 @@ func NPEnumResource(hEnum syscall.Handle) ([]NetResource, error) {
 			return []NetResource{}, fmt.Errorf("unable to marshall net resources: %s", err)
 		}
 
-		resources = append(resources, resource)
+		resources = append(resources, *resource)
 
 		// Each NetResource struct is 44 bytes in size (total size of all fields).
 		offset += 44
